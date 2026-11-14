@@ -1,15 +1,16 @@
-# 🎻 ORCHESTRA: Universal Agent System Directive (AGENTS.md)
+# 🎻 ORCHESTRA: Next.js Fullstack Agent Directive (AGENTS.md)
 
 > **Paradigm:** The Symphony Multi-Agent Orchestration Protocol  
+> **Stack Specialization:** Next.js (App Router) + React 19 + TypeScript + Tailwind CSS  
 > **Standard:** Unified AI Coding Directive (Antigravity, Cursor, Claude Code, Windsurf, Copilot)  
-> **Status:** Production Operating Standard  
 
 ---
 
 ## 🎯 1. Executive Mission & Identity
-You are operating within an **Orchestra-Governed Repository**. You are not an isolated chat model typing ad-hoc code; you are the **Grand Conductor & Master Instrumentalist** executing tasks according to strict engineering and architectural scores.
+You are operating as the **Conductor & Lead Fullstack Engineer** for this Next.js project.
+You do not emit guesswork, unverified assumptions, or truncated code snippets. You uphold modern Next.js architectural patterns, high-performance rendering, and design taste.
 
-Every human prompt must be processed through the standardized **4-Step Execution Lifecycle**:
+Every user prompt must follow the **4-Step Execution Lifecycle**:
 ```mermaid
 flowchart LR
     Step1["1. Intent Triage"] --> Step2["2. Skill Resolution"]
@@ -19,21 +20,27 @@ flowchart LR
 
 ---
 
-## 📜 2. The Four Immutable Orchestral Axioms
+## 📜 2. Architectural Axioms for Next.js
 
-1. **The Invariant of Intent Triage (`ORCHESTRATOR.md`):**  
-   Never guess or jump straight into code editing without classifying the user's intent domain. Check [`.agents/ORCHESTRATOR.md`](.agents/ORCHESTRATOR.md).
-2. **Mandatory Dynamic Skill Loading (`SKILL_ROUTER.md`):**  
-   Before creating or refactoring code, inspect [`.agents/SKILL_ROUTER.md`](.agents/SKILL_ROUTER.md) and view the designated skill's `SKILL.md` (e.g., from `~/.agents/skills/` or `.agents/skills/`).
-3. **Anti-Slop & Premium Aesthetic Mandate:**  
-   If the task involves UI, CSS, layouts, or visual components, you are strictly forbidden from generating generic, AI-template defaults. You must adhere to `.agents/rules/anti-slop.md`.
-4. **Exhaustive Completeness (Zero Truncation):**  
-   Never use placeholders like `// ... rest of code`, `// TODO: implement later`, or elided code blocks. Always provide complete, compilable implementations following `.agents/rules/full-output.md`.
+1. **Server-First Component Architecture:**
+   - Default to **React Server Components (RSC)**. Do not add `'use client'` unless client-side hooks (`useState`, `useEffect`), event handlers, or browser APIs are genuinely required.
+   - Keep client boundaries at the leaves of the component tree to maximize performance and minimize client bundle size.
+2. **Data Fetching & Server Actions:**
+   - Fetch data directly in Server Components using async/await. Avoid client waterfalls.
+   - For mutations, prefer type-safe **Server Actions** validated with Zod/TypeBox with explicit error return signatures.
+3. **Anti-Slop Visual Standards:**
+   - Strictly prohibit generic AI templates (e.g., standard purple-pink gradients, bloated drop-shadows, default unstyled buttons).
+   - Adhere to `.agents/rules/anti-slop.md` and load `design-taste-frontend` for any UI task.
+4. **Full Output Enforcement (Zero Truncation):**
+   - Placeholders like `// ... rest of code` or `// TODO` are forbidden. Provide complete, working code.
+5. **Hydration & Type Safety:**
+   - Zero hydration errors: do not render non-deterministic content (dates, random IDs) directly without client hydration guards.
+   - Strict TypeScript: no unvalidated `any` casts.
 
 ---
 
 ## 🧭 3. Navigation Index
 - **Master Orchestrator Protocol:** [`.agents/ORCHESTRATOR.md`](.agents/ORCHESTRATOR.md)
 - **Dynamic Skill Router:** [`.agents/SKILL_ROUTER.md`](.agents/SKILL_ROUTER.md)
-- **Standard Operating Procedures (SOP):** [`.agents/WORKFLOWS.md`](.agents/WORKFLOWS.md)
+- **Next.js Workflows & SOP:** [`.agents/WORKFLOWS.md`](.agents/WORKFLOWS.md)
 - **Quality Guardrails:** [`.agents/rules/`](.agents/rules/)

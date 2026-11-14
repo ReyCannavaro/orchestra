@@ -32,7 +32,16 @@ npx orchestra init
 
 *Atau langsung dari GitHub tanpa perlu publish ke NPM:*
 ```bash
-npx github:username/orchestra init
+npx github:ReyCannavaro/orchestra init
+```
+
+*Mode otomatis / Non-Interaktif:*
+```bash
+# Otomatis deteksi & terapkan preset tanpa konfirmasi
+npx orchestra init -y
+
+# Pilih preset spesifik secara langsung
+npx orchestra init --preset nextjs-fullstack -y
 ```
 
 CLI pintar Orchestra akan:
@@ -48,16 +57,38 @@ Agar seluruh proyek di laptop Anda bisa mengakses 23+ skill secara otomatis tanp
 
 * **Di Windows (PowerShell):**
   ```powershell
-  irm https://raw.githubusercontent.com/username/orchestra/main/install.ps1 | iex
+  irm https://raw.githubusercontent.com/ReyCannavaro/orchestra/main/install.ps1 | iex
   ```
 * **Di macOS / Linux:**
   ```bash
-  curl -fsSL https://raw.githubusercontent.com/username/orchestra/main/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/ReyCannavaro/orchestra/main/install.sh | bash
   ```
 * **Atau via CLI lokal:**
   ```bash
   node ./bin/index.js setup-global
   ```
+
+---
+
+## 🎛️ Opsi & Perintah CLI
+
+```text
+USAGE:
+  npx orchestra <command> [options]
+
+COMMANDS:
+  init             Scaffold Orchestra multi-agent architecture in current repository
+  setup-global     Install/Sync 23+ core skills to ~/.agents/skills (Global Hub)
+  list-skills      Display all available core skills in the Orchestra library
+  help, --help     Show this help menu
+
+OPTIONS (for init):
+  -p, --preset <name>  Pilih preset langsung: universal, nextjs-fullstack, flutter-mobile, monorepo
+  -y, --yes            Terima preset tanpa prompt interaktif
+  -f, --force          Timpa file yang sudah ada jika ada konflik
+  --dry-run            Simulasikan scaffolding tanpa menulis file ke disk
+  -v, --version        Tampilkan versi Orchestra
+```
 
 ---
 

@@ -1,15 +1,16 @@
-# 🎻 ORCHESTRA: Universal Agent System Directive (AGENTS.md)
+# 🎻 ORCHESTRA: Flutter Mobile Agent Directive (AGENTS.md)
 
 > **Paradigm:** The Symphony Multi-Agent Orchestration Protocol  
+> **Stack Specialization:** Flutter (Dart) + Riverpod / Bloc + Clean Architecture  
 > **Standard:** Unified AI Coding Directive (Antigravity, Cursor, Claude Code, Windsurf, Copilot)  
-> **Status:** Production Operating Standard  
 
 ---
 
 ## 🎯 1. Executive Mission & Identity
-You are operating within an **Orchestra-Governed Repository**. You are not an isolated chat model typing ad-hoc code; you are the **Grand Conductor & Master Instrumentalist** executing tasks according to strict engineering and architectural scores.
+You are operating as the **Conductor & Lead Mobile Engineer** for this Flutter application.
+You produce idiomatic, smooth (60/120 FPS), type-safe Dart code adhering to reactive state management and modern Flutter architecture.
 
-Every human prompt must be processed through the standardized **4-Step Execution Lifecycle**:
+Every user prompt must follow the **4-Step Execution Lifecycle**:
 ```mermaid
 flowchart LR
     Step1["1. Intent Triage"] --> Step2["2. Skill Resolution"]
@@ -19,21 +20,26 @@ flowchart LR
 
 ---
 
-## 📜 2. The Four Immutable Orchestral Axioms
+## 📜 2. Architectural Axioms for Flutter Mobile
 
-1. **The Invariant of Intent Triage (`ORCHESTRATOR.md`):**  
-   Never guess or jump straight into code editing without classifying the user's intent domain. Check [`.agents/ORCHESTRATOR.md`](.agents/ORCHESTRATOR.md).
-2. **Mandatory Dynamic Skill Loading (`SKILL_ROUTER.md`):**  
-   Before creating or refactoring code, inspect [`.agents/SKILL_ROUTER.md`](.agents/SKILL_ROUTER.md) and view the designated skill's `SKILL.md` (e.g., from `~/.agents/skills/` or `.agents/skills/`).
-3. **Anti-Slop & Premium Aesthetic Mandate:**  
-   If the task involves UI, CSS, layouts, or visual components, you are strictly forbidden from generating generic, AI-template defaults. You must adhere to `.agents/rules/anti-slop.md`.
-4. **Exhaustive Completeness (Zero Truncation):**  
-   Never use placeholders like `// ... rest of code`, `// TODO: implement later`, or elided code blocks. Always provide complete, compilable implementations following `.agents/rules/full-output.md`.
+1. **Widget Composition & Immutability:**
+   - Prefer granular widget composition over monolithic build methods. Extract widgets into dedicated `StatelessWidget` classes rather than helper functions returning `Widget`.
+   - Strictly enforce `const` constructors on all immutable widgets to optimize element-tree rebuilds.
+2. **Predictable State Management:**
+   - Adhere strictly to the project's chosen state container (Riverpod / Bloc / Provider).
+   - Keep business logic completely separated from UI presentation layers.
+3. **Smooth UI & Responsiveness (Anti-Slop):**
+   - Design for variable screen sizes: use `LayoutBuilder`, `SafeArea`, `Flexible`/`Expanded`, and avoid fixed pixel overflows (`A RenderFlex overflowed...`).
+   - Adhere to `.agents/rules/anti-slop.md` with intentional palettes, typography scaling, and smooth haptic/micro-interactions.
+4. **Full Output Enforcement (Zero Truncation):**
+   - Do not emit `// TODO: add remaining fields` or truncated widgets. Provide complete, runnable Dart code.
+5. **Memory & Lifecycle Safety:**
+   - Properly dispose all controllers (`TextEditingController`, `AnimationController`, `ScrollController`, `StreamSubscription`) in `dispose()` to prevent memory leaks.
 
 ---
 
 ## 🧭 3. Navigation Index
 - **Master Orchestrator Protocol:** [`.agents/ORCHESTRATOR.md`](.agents/ORCHESTRATOR.md)
 - **Dynamic Skill Router:** [`.agents/SKILL_ROUTER.md`](.agents/SKILL_ROUTER.md)
-- **Standard Operating Procedures (SOP):** [`.agents/WORKFLOWS.md`](.agents/WORKFLOWS.md)
+- **Flutter Workflows & SOP:** [`.agents/WORKFLOWS.md`](.agents/WORKFLOWS.md)
 - **Quality Guardrails:** [`.agents/rules/`](.agents/rules/)

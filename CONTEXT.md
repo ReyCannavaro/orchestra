@@ -86,3 +86,19 @@ Ketika Anda memulai sesi baru di dalam folder `C:\Users\Rey Cannavaro\orchestra`
    - Lengkapi file template di `templates/` agar siap di-copy ke repo target ketika `orchestra init` dijalankan.
    - Siapkan installer script `install.ps1` dan `install.sh` untuk teman yang ingin setup global library `~/.agents`.
    - Buatkan dokumentasi `README.md` yang memukau untuk GitHub.
+
+---
+
+## 📈 6. Riwayat Pengembangan & Update Terbaru (Branch `dev`)
+
+Pada 14 November 2026:
+- **Remote Installer Implementation:** Menyempurnakan `install.ps1` dan `install.sh` dengan mekanisme download arsip riil dari `ReyCannavaro/orchestra` saat dijalankan via one-liner remote (`irm ... | iex` atau `curl ... | bash`).
+- **CLI Expansion (`bin/index.js`):**
+  - Menambahkan argumen non-interaktif: `--preset <name>`, `-y`/`--yes`, `-f`/`--force`, `--dry-run`, dan `-v`/`--version`.
+  - Memuat versi secara dinamis dari `package.json`.
+  - Normalisasi opsi input preset (1-4 atau string identifier).
+- **Diferensiasi Template Spesifik:**
+  - `nextjs-fullstack`: Instruksi Server Components vs Client Components, App Router, Server Actions, dan anti-hydration error.
+  - `flutter-mobile`: Instruksi arsitektur immutability, `const` constructor hygiene, responsive layout (`SafeArea`, `LayoutBuilder`), dan clean lifecycle management.
+  - `monorepo`: Instruksi package boundaries, larangan circular dependency, task graph cache friendly, dan integrasi conflict matrix.
+- **Pembaruan Repositori:** Mengarahkan seluruh URL placeholder ke repositori resmi `https://github.com/ReyCannavaro/orchestra`.
