@@ -1,4 +1,4 @@
-﻿# Orchestra Windows Installer (PowerShell)
+# Orchestra Windows Installer (PowerShell)
 # One-liner execution: irm https://raw.githubusercontent.com/ReyCannavaro/orchestra/main/install.ps1 | iex
 
 $ErrorActionPreference = "Stop"
