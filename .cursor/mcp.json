@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "orchestra": {
+      "command": "node",
+      "args": [
+        "C:/Users/Rey Cannavaro/orchestra/bin/index.js",
+        "mcp"
+      ]
+    }
+  }
+}

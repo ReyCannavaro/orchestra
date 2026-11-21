@@ -78,6 +78,8 @@ USAGE:
 
 COMMANDS:
   init             Scaffold Orchestra multi-agent architecture in current repository
+  mcp              Jalankan native JSON-RPC 2.0 Orchestra MCP Server di STDIO
+  mcp-setup        Otomatis konfigurasi IDE (Cursor .cursor/mcp.json, Claude, Antigravity)
   session <action> Kelola sesi kerja multi-agent & Baton lock (start, status, checkpoint, end)
   skill <action>   Manajemen paket skill modular (list, search, add, remove, update, new)
   check, doctor    Run Quality Gatekeeper (Anti-Slop, Anti-Truncation, Agent Health)
@@ -112,6 +114,28 @@ OPTIONS (for init):
   -f, --force          Timpa file yang sudah ada jika ada konflik
   --dry-run            Simulasikan scaffolding tanpa menulis file ke disk
 ```
+
+---
+
+## 🔌 Native Orchestra MCP Server (Model Context Protocol)
+
+Orchestra menyertakan server MCP native bawaan (**Zero-Dependency, instan <10ms**) yang berjalan di atas protokol standar JSON-RPC 2.0 over STDIO.
+
+```bash
+# Otomatis konfigurasi Cursor IDE (.cursor/mcp.json) & cetak snippet Claude/Antigravity
+npx orchestra mcp-setup
+
+# Jalankan MCP Server di terminal
+npx orchestra mcp
+```
+
+### 🛠️ 6 Tools Aktif yang Disediakan untuk AI:
+1. `orchestra_resolve_skill`: AI mengirimkan deskripsi tugas, Orchestra langsung mengembalikan aturan & token desain yang relevan tanpa memenuhi context window di awal.
+2. `orchestra_acquire_baton`: Menerapkan *Single-Writer Invariant*, mengunci giliran mutasi file untuk role AI tertentu.
+3. `orchestra_release_baton`: Melepaskan baton, menandai kemajuan roadmap, mencatat touched files, dan menyimpan ADR.
+4. `orchestra_verify_diff`: Menjalankan Quality Gatekeeper (anti-slop & truncation) sebelum AI menyatakan tugas selesai.
+5. `orchestra_session_status`: Membaca status roadmap dan pemegang baton terkini.
+6. `orchestra_list_skills`: Menelusuri seluruh pustaka skill yang tersedia di ekosistem Orchestra.
 
 ---
 

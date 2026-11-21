@@ -30,6 +30,7 @@ import {
   skillUpdate,
   skillNew,
 } from '../lib/skills/index.js';
+import { startMcpServer, setupIdeMcpConfig } from '../lib/mcp/index.js';
 import { colors } from '../lib/utils/colors.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -73,6 +74,10 @@ ${colors.bold}CORE COMMANDS:${colors.reset}
   ${colors.green}version, -v${colors.reset}             Display Orchestra version
   ${colors.green}help, --help${colors.reset}            Show this help menu
 
+${colors.bold}NATIVE MCP SERVER COMMANDS:${colors.reset}
+  ${colors.green}mcp${colors.reset}                     Start the native JSON-RPC 2.0 Orchestra MCP Server on STDIO
+  ${colors.green}mcp-setup${colors.reset}               Auto-configure IDEs (Cursor .cursor/mcp.json, Claude, Antigravity)
+
 ${colors.bold}SKILL PACKAGE MANAGER COMMANDS:${colors.reset}
   ${colors.green}skill list${colors.reset}              List installed skills (global & local project skills)
   ${colors.green}skill search <query>${colors.reset}    Search skills in the Orchestra registry by keyword/tag
@@ -115,11 +120,10 @@ ${colors.bold}OPTIONS (for init):${colors.reset}
   ${colors.cyan}--dry-run${colors.reset}                 Simulate scaffolding without modifying files
 
 ${colors.bold}EXAMPLES:${colors.reset}
+  $ npx orchestra mcp-setup
+  $ npx orchestra mcp
   $ npx orchestra skill search stripe
-  $ npx orchestra skill add design-taste-frontend
-  $ npx orchestra skill new custom-auth --desc "OAuth2 and Passkey helper"
   $ npx orchestra session start "Implement Lucia Authentication"
-  $ npx orchestra check --staged --fast
 `);
 }
 
@@ -334,6 +338,9 @@ while (i < rawArgs.length) {
     arg === 'baton' ||
     arg === 'skill' ||
     arg === 'skills' ||
+    arg === 'mcp' ||
+    arg === 'mcp-setup' ||
+    arg === 'setup-mcp' ||
     arg === 'help'
   ) {
     command = arg;
@@ -424,6 +431,18 @@ switch (command) {
         console.error(`${colors.red}Quality check encountered an unexpected error:${colors.reset}`, err);
         process.exit(1);
       });
+    break;
+
+  case 'mcp':
+    startMcpServer();
+    break;
+
+  case 'mcp-setup':
+  case 'setup-mcp':
+    {
+      const code = setupIdeMcpConfig();
+      process.exit(code);
+    }
     break;
 
   case 'skill':

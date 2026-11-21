@@ -136,3 +136,13 @@ Pada 21 November 2026:
   - Mengintegrasikan perintah `orchestra skill` / `skills` ke `bin/index.js`.
   - Teruji tuntas: listing skills, pencarian berbasis keyword/tag, penambahan skill lokal/global, scaffolding skill baru, dan penghapusan skill.
   - Memperbarui roadmap active Baton session di `.agents/BATON.json` (Step 3: COMPLETED ✔).
+- **Penyelesaian Penuh Tahap 4 (Pilar 1: Native Orchestra MCP Server):**
+  - Mengembangkan native JSON-RPC 2.0 Model Context Protocol (MCP) Server di `lib/mcp/`:
+    - `lib/mcp/tools.js`: Deklarasi schema 6 tools standar MCP (`orchestra_resolve_skill`, `acquire_baton`, `release_baton`, `verify_diff`, `session_status`, `list_skills`).
+    - `lib/mcp/handlers.js`: Implementasi eksekusi aktif untuk masing-masing tool (lazy skill resolving, locking, verification).
+    - `lib/mcp/server.js`: Zero-dependency STDIO message loop dengan stream terisolasi (stdout murni JSON-RPC, stderr untuk log diagnosa).
+    - `lib/mcp/ideConfig.js`: Generator konfigurasi multi-IDE (`.cursor/mcp.json`, Claude Desktop snippet, Antigravity instruction).
+    - `lib/mcp/index.js`: Entrypoint CLI `runMcpServer` dan `setupIdeMcpConfig`.
+  - Mengintegrasikan perintah `orchestra mcp` dan `orchestra mcp-setup` ke `bin/index.js`.
+  - Teruji tuntas: pengujian handshake JSON-RPC 2.0 (initialize, tools/list, tools/call) melewati automated harness 100% lulus.
+  - Memperbarui roadmap active Baton session di `.agents/BATON.json` (Step 4: COMPLETED ✔).

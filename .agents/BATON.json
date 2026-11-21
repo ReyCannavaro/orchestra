@@ -3,7 +3,7 @@
   "sessionId": "ses_20261121_0309_hj23",
   "activeGoal": "Orchestra 2.0 Evolution: Autonomous AI Multi-Agent Operating System",
   "createdAt": "2026-11-21T03:09:55.518Z",
-  "updatedAt": "2026-11-21T03:14:59.067Z",
+  "updatedAt": "2026-11-21T03:19:12.407Z",
   "currentPhase": "1_intent_triage",
   "baton": {
     "holder": "conductor",
@@ -35,22 +35,23 @@
     {
       "step": 4,
       "title": "Native Orchestra MCP Server",
-      "status": "in_progress",
-      "verified": false,
-      "updatedAt": "2026-11-21T03:14:59.058Z"
+      "status": "completed",
+      "verified": true,
+      "updatedAt": "2026-11-21T03:19:12.400Z"
     },
     {
       "step": 5,
       "title": "Interactive Mission Control Dashboard",
-      "status": "pending",
+      "status": "in_progress",
       "verified": false,
-      "updatedAt": "2026-11-21T03:09:55.518Z"
+      "updatedAt": "2026-11-21T03:19:12.402Z"
     }
   ],
   "touchedFiles": [],
   "architecturalDecisions": [
     "ADR-001: Implement Zero-Dependency Quality Gatekeeper CLI with AST scanner, anti-slop rules, and Git pre-commit hooks",
     "ADR-002: Implement The Baton Protocol with state persistence, cross-IDE continuity, and automated ADR generation",
-    "ADR-003: Implement Modular Skill Registry with index.json manifest, search/install/scaffold CLI engine, and auto-router registration"
+    "ADR-003: Implement Modular Skill Registry with index.json manifest, search/install/scaffold CLI engine, and auto-router registration",
+    "ADR-004: Implement Native Zero-Dependency JSON-RPC 2.0 MCP Server (orchestra-mcp) exposing 6 core orchestration tools on STDIO"
   ]
 }
