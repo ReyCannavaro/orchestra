@@ -57,7 +57,7 @@ Di ekosistem NPM (`npmjs.com`), nama package publik bersifat *first-come, first-
    * *Status:* Jika nama `orchestra` belum terpakai atau tidak aktif, klaim nama ini untuk kesederhanaan maksimal (`npx orchestra init`).
 2. **Pilihan Alternatif Kredibel (Unscoped / Scoped):**
    * `orchestra-cli` (sangat standar industri seperti `vue-cli`, `prisma-cli`).
-   * `orchestra-ai` / `orchestra-os` (menonjolkan posisi sebagai Multi-Agent OS).
+   * `orchestra-nv` (nama resmi yang dipilih untuk perilisan publik di NPM).
    * `@reycannavaro/orchestra` (nama scoped resmi di bawah identitas Rey Cannavaro).
 
 > [!TIP]

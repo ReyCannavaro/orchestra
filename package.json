@@ -1,9 +1,9 @@
 {
-  "name": "orchestra-os",
+  "name": "orchestra-nv",
   "version": "2.0.0",
   "description": "The Symphony Multi-Agent Operating System & Scaffolding Protocol for Autonomous AI Software Teams",
   "bin": {
-    "orchestra-os": "./bin/index.js",
+    "orchestra-nv": "./bin/index.js",
     "orchestra": "./bin/index.js"
   },
   "type": "module",
@@ -11,8 +11,9 @@
     "test": "node ./bin/index.js check --fast"
   },
   "keywords": [
-    "orchestra-os",
+    "orchestra-nv",
     "orchestra",
+    "cannavaro",
     "ai-agent",
     "multi-agent",
     "operating-system",

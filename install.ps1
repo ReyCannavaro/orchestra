@@ -50,5 +50,5 @@ if ($ScriptDir -and (Test-Path (Join-Path $ScriptDir "core-skills"))) {
 }
 
 Write-Host "✔ Successfully installed Orchestra Core Skills to $TargetDir" -ForegroundColor Green
-Write-Host "✨ To scaffold a project, run: npx orchestra-os init" -ForegroundColor Magenta
+Write-Host "✨ To scaffold a project, run: npx orchestra-nv init" -ForegroundColor Magenta
 Write-Host ""

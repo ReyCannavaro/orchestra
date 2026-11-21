@@ -64,7 +64,7 @@ Membangun Orchestra bukan sekadar membuat CLI biasa; kita menciptakan **lompatan
 * **Mengubah 1 Developer Menjadi "10x Engineering Director":**  
   Anda tidak lagi menghabiskan waktu merapikan kode malas AI atau mengawasi sintaks baris demi baris. Anda bertindak sebagai **Grand Conductor**, sementara para subagent bertindak sebagai instrumen spesialis Anda.
 * **Kecepatan Setup Instan (Hitungan Detik):**  
-  Ketika memiliki ide startup baru malam ini, Anda tidak perlu menghabiskan 3 jam mengatur prompt dan skill. Cukup jalankan `npx orchestra-os init`, dalam 5 detik seluruh arsitektur multi-agent enterprise sudah terpasang.
+  Ketika memiliki ide startup baru malam ini, Anda tidak perlu menghabiskan 3 jam mengatur prompt dan skill. Cukup jalankan `npx orchestra-nv init`, dalam 5 detik seluruh arsitektur multi-agent enterprise sudah terpasang.
 * **Bebas Beban Kognitif (*Zero Cognitive Fatigue*):**  
   Anda tidak perlu menghafal 23 skill; Orchestra menyuapkan konteks dan token desain secara presisi ke AI via native MCP Server saat dibutuhkan.
 
@@ -89,9 +89,9 @@ Membangun Orchestra bukan sekadar membuat CLI biasa; kita menciptakan **lompatan
 ```mermaid
 flowchart TD
     subgraph Human["Developer Interface"]
-        CLI["Orchestra CLI (npx orchestra-os)"]
-        TUI["Mission Control TUI (orchestra-os dashboard)"]
-        GitHooks["Pre-Commit Guardrails (orchestra-os check)"]
+        CLI["Orchestra CLI (npx orchestra-nv)"]
+        TUI["Mission Control TUI (orchestra-nv dashboard)"]
+        GitHooks["Pre-Commit Guardrails (orchestra-nv check)"]
     end
 
     subgraph CoreEngine["Orchestra Core Operating System"]
@@ -120,7 +120,7 @@ flowchart TD
 Masuk ke folder proyek Anda, lalu jalankan:
 
 ```bash
-npx orchestra-os init
+npx orchestra-nv init
 ```
 
 *Atau langsung dari GitHub tanpa publish ke registry:*
@@ -131,10 +131,10 @@ npx github:ReyCannavaro/orchestra init
 *Mode Otomatis / Non-Interaktif:*
 ```bash
 # Otomatis deteksi stack & pasang tanpa konfirmasi prompt
-npx orchestra-os init -y
+npx orchestra-nv init -y
 
 # Pilih preset spesifik secara langsung
-npx orchestra-os init --preset nextjs-fullstack -y
+npx orchestra-nv init --preset nextjs-fullstack -y
 ```
 
 CLI cerdas Orchestra akan:
@@ -165,14 +165,14 @@ Agar seluruh proyek di laptop Anda bisa mengakses 23+ skill secara otomatis tanp
 
 ## 🌟 6. Lima Pilar Produksi Orchestra 2.0
 
-### 🖥️ Pilar 1: Interactive Mission Control Dashboard (`orchestra-os dashboard`)
+### 🖥️ Pilar 1: Interactive Mission Control Dashboard (`orchestra-nv dashboard`)
 
 Orchestra menyertakan antarmuka **Terminal User Interface (TUI)** murni (*Zero-Dependency ANSI Box-Drawing Engine*) yang memvisualisasikan ekosistem agent secara real-time:
 
 ```bash
-npx orchestra-os dashboard
+npx orchestra-nv dashboard
 # atau alias singkat:
-npx orchestra-os ui
+npx orchestra-nv ui
 ```
 
 ```text
@@ -327,7 +327,7 @@ npx orchestra init-ci
 
 ```text
 USAGE:
-  npx orchestra-os <command> [subcommand] [options]
+  npx orchestra-nv <command> [subcommand] [options]
   (or npx orchestra <command>)
 
 CORE COMMANDS:

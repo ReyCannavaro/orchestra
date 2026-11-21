@@ -65,7 +65,7 @@ function showHelp() {
   banner();
   console.log(`
 ${colors.bold}USAGE:${colors.reset}
-  npx orchestra-os <command> [subcommand] [options]
+  npx orchestra-nv <command> [subcommand] [options]
   (or npx orchestra <command>)
 
 ${colors.bold}CORE COMMANDS:${colors.reset}
@@ -124,12 +124,12 @@ ${colors.bold}OPTIONS (for init):${colors.reset}
   ${colors.cyan}--dry-run${colors.reset}                 Simulate scaffolding without modifying files
 
 ${colors.bold}EXAMPLES:${colors.reset}
-  $ npx orchestra-os init
-  $ npx orchestra-os dashboard
-  $ npx orchestra-os mcp-setup
-  $ npx orchestra-os skill search stripe
-  $ npx orchestra-os check
-  $ npx orchestra-os session start "Implement Lucia Authentication"
+  $ npx orchestra-nv init
+  $ npx orchestra-nv dashboard
+  $ npx orchestra-nv mcp-setup
+  $ npx orchestra-nv skill search stripe
+  $ npx orchestra-nv check
+  $ npx orchestra-nv session start "Implement Lucia Authentication"
 `);
 }
 
