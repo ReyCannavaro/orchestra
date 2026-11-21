@@ -11,15 +11,80 @@
 
 ---
 
-## 🌟 Mengapa Orchestra?
+## 📖 1. Latar Belakang: Krisis di Balik Ledakan AI Coding
 
-Dalam pengembangan software modern berbasis AI, developer sering kali menghadapi 4 masalah fatal:
-* 🗣️ **Agent Chatter & Halusinasi:** Model AI mengobrol tanpa batas, lupa instruksi awal, dan bertindak di luar spesifikasi.
-* ✂️ **Kode Terpotong (*Lazy Code*):** AI menghasilkan `// TODO`, `// ... rest of code`, atau fungsi stub kosong di tengah logika krusial.
-* 🎨 **Desain Murahan (*AI Slop*):** Gradient ungu-pink murahan, shadow neon berlebihan, dan tombol tanpa *interactive state* yang merusak reputasi produk.
-* 💥 **Konflik Mutasi File (*Race Conditions*):** Beberapa prompt atau agent menimpa file yang sama secara serentak tanpa koordinasi giliran.
+Proyek **Orchestra** tidak lahir dari angan-angan teoritis di atas kertas, melainkan dari **kenyataan lapangan dan rasa frustrasi nyata** saat dilakukan audit mendalam terhadap **21 repositori multi-agent** di laptop Rey Cannavaro (seperti `shape-tool`, `urbangrow-workspace`, `see-mbg`, dan `asterisk`).
 
-**Orchestra 2.0** menyelesaikan seluruh masalah ini dengan mentransformasi konfigurasi AI pasif menjadi **Autonomous Multi-Agent Operating System** berbasis filosofi Orkestra Simfoni:
+Ketika dunia menyambut era AI Coding (Cursor, Claude Code, Antigravity, Copilot), hampir semua developer menghadapi **5 krisis akut yang sama**:
+
+1. 🗣️ **Agent Chatter & Halusinasi Liar:**  
+   Ketika beberapa agent AI bekerja bersamaan tanpa batasan peran, mereka saling bertumpuk argumen. Hasilnya adalah *kebisingan (noise)* dan halusinasi, bukan kode yang berfungsi.
+2. ✂️ **Pemotongan Kode Malas (*Lazy Code & Truncation*):**  
+   Untuk menghemat output token, LLM secara default sering menulis komentar jalan pintas di tengah logika krusial:
+   ```typescript
+   // TODO: implement later
+   // ... rest of code
+   ```
+   Hal ini merusak logika aplikasi dan menyebabkan runtime failure di produksi.
+3. 🎨 **Ledakan Desain Murahan (*The AI-Slop Epidemic*):**  
+   AI secara seragam menghasilkan palette generik yang norak: gradient ungu-pink murahan (`from-purple-500 to-pink-500`), shadow neon berlebihan, dan elemen button tanpa interactive hover/focus states yang merusak martabat visual produk.
+4. 💥 **Amnesia AI & Konflik Mutasi File (*Race Conditions*):**  
+   Saat sesi percakapan memanjang atau developer berpindah editor (misal: dari Cursor ke Claude Code atau Antigravity), AI kehilangan memori konteks. Dua prompt bisa menimpa file yang sama secara bertabrakan, menghapus pekerjaan jam sebelumnya.
+5. 📂 **Redundansi Puluhan Ribu Baris Skill Tercecer:**  
+   Pustaka 23+ skill berukuran ribuan baris harus di-copy-paste manual ke setiap repositori baru. Begitu ada pembaruan pada 1 skill, puluhan proyek lainnya langsung basi (*drift*).
+
+> **Akar Masalah:**  
+> Model AI saat ini sangat cerdas, tetapi **tidak memiliki disiplin kerja**. Mereka seperti 100 musisi jenius di satu panggung yang meniup terompet dan menggesek biola bersamaan tanpa aturan — hasilnya adalah **kekacauan (chaos)**.
+
+---
+
+## 🎼 2. Visi Agung: Paradigma Orkestra Simfoni
+
+Filosofi inti Orchestra meminjam metafora **Orkestra Simfoni**:
+
+> *"Musik simfoni yang megah tidak lahir dari musisi yang paling keras bersuara, melainkan dari partitur yang presisi, dirigen yang disiplin, dan giliran instrumen yang teratur."*
+
+### Visi Utama Orchestra:
+> **Menjadikan Orchestra sebagai *Universal Operating System* untuk Rekayasa Perangkat Lunak Multi-Agent Otonom — mentransformasikan AI dari sekadar chatbot pengetik kode pasif menjadi divisi software engineering aktif, disiplin, berstandar enterprise, dan bebas cacat.**
+
+Orchestra merevolusi cara kerja AI melalui 5 instrumen simfoni:
+* 📜 **The Score (`AGENTS.md`):** Partitur musik sebagai satu-satunya rujukan spesifikasi absolut (*Ground Truth*).
+* 🎼 **The Conductor (`ORCHESTRATOR.md`):** Dirigen yang mengatur tempo dan siklus kerja 4 tahap: *Intent Triage ➔ Skill Resolution ➔ Phased Execution ➔ Pre-Flight Verification*.
+* 🪄 **The Baton Protocol (`.agents/BATON.json`):** Menerapkan prinsip *Single-Writer Invariant*. Hanya agen pemegang tongkat yang berhak memutasi file.
+* 🛡️ **The Gatekeeper (`orchestra check`):** Kurator kualitas yang memastikan nada tidak fals—menolak kode terpotong dan desain AI-slop sebelum masuk ke Git commit.
+* 🖥️ **Mission Control (`orchestra dashboard`):** Ruang kendali TUI interaktif tempat developer mengawasi dan mengarahkan seluruh ekosistem agent secara real-time.
+
+---
+
+## 💥 3. Dampak Nyata (*The Triple-Level Transformative Impact*)
+
+Membangun Orchestra bukan sekadar membuat CLI biasa; kita menciptakan **lompatan dampak sistemik** di 3 tingkatan:
+
+### 👤 A. Bagi Solo Builder & Developer
+* **Mengubah 1 Developer Menjadi "10x Engineering Director":**  
+  Anda tidak lagi menghabiskan waktu merapikan kode malas AI atau mengawasi sintaks baris demi baris. Anda bertindak sebagai **Grand Conductor**, sementara para subagent bertindak sebagai instrumen spesialis Anda.
+* **Kecepatan Setup Instan (Hitungan Detik):**  
+  Ketika memiliki ide startup baru malam ini, Anda tidak perlu menghabiskan 3 jam mengatur prompt dan skill. Cukup jalankan `npx orchestra init`, dalam 5 detik seluruh arsitektur multi-agent enterprise sudah terpasang.
+* **Bebas Beban Kognitif (*Zero Cognitive Fatigue*):**  
+  Anda tidak perlu menghafal 23 skill; Orchestra menyuapkan konteks dan token desain secara presisi ke AI via native MCP Server saat dibutuhkan.
+
+### 🏢 B. Bagi Tim Engineering & Perusahaan
+* **Menghilangkan "AI Technical Debt":**  
+  Perusahaan tidak perlu lagi takut kode AI merusak arsitektur mereka. Gatekeeper Orchestra menjamin setiap baris kode yang masuk ke Pull Request (PR) bebas `// TODO`, terkompilasi utuh, dan otomatis menghasilkan dokumentasi Keputusan Arsitektur resmi ([docs/ADR.md](docs/ADR.md)).
+* **Standarisasi Kualitas Otomatis:**  
+  Setiap developer—baik senior, junior, maupun AI assistant yang berbeda—dipaksa mematuhi standar kualitas kode dan visual yang seragam melalui Git pre-commit guardrails.
+* **Kebebasan Lintas Editor (*Cross-IDE Harmony*):**  
+  Developer A menyukai Cursor, Developer B memakai Claude Code, dan Developer C menggunakan Google Antigravity. Orchestra menjadi jembatan pemersatu; mereka semua beroperasi di atas partitur yang sama tanpa konflik state.
+
+### 🌐 C. Bagi Industri AI & Open-Source Global
+* **Mendefinisikan Standar Pasca-Chatbot (*Post-Chatbot OS*):**  
+  Orchestra membuktikan bahwa sistem multi-agent otonom tidak membutuhkan framework monolitik yang lambat dan memakan memori; Orchestra membuktikannya dengan arsitektur **Zero-Dependency, instan <15ms, dan berjalan di atas protokol terbuka (JSON-RPC 2.0 MCP & Git)**.
+* **Penyelamatan Estetika Visual Software:**  
+  Dengan aturan ketat anti-slop, Orchestra menolak gelombang software murahan hasil template AI dan mengembalikan standar visual kelas dunia (minimalist, brutalist, Swiss typography, responsive agency-grade) ke industri perangkat lunak.
+
+---
+
+## 🏛️ 4. Arsitektur Sistem 3-Lapisan
 
 ```mermaid
 flowchart TD
@@ -49,7 +114,7 @@ flowchart TD
 
 ---
 
-## ⚡ Quickstart: Cara Pakai
+## ⚡ 5. Quickstart: Cara Pakai
 
 ### Opsi 1: Pasang ke Proyek Apapun (Rekomendasi)
 Masuk ke folder proyek Anda, lalu jalankan:
@@ -98,9 +163,11 @@ Agar seluruh proyek di laptop Anda bisa mengakses 23+ skill secara otomatis tanp
 
 ---
 
-## 🖥️ 1. Interactive Mission Control Dashboard (`orchestra dashboard`)
+## 🌟 6. Lima Pilar Produksi Orchestra 2.0
 
-Orchestra menyertakan antarmuka **Terminal User Interface (TUI)** murni (*Zero-Dependency ANSI Box-Drawing Engine*) yang memvisualisasikan seluruh orkestrasi agent secara real-time:
+### 🖥️ Pilar 1: Interactive Mission Control Dashboard (`orchestra dashboard`)
+
+Orchestra menyertakan antarmuka **Terminal User Interface (TUI)** murni (*Zero-Dependency ANSI Box-Drawing Engine*) yang memvisualisasikan ekosistem agent secara real-time:
 
 ```bash
 npx orchestra dashboard
@@ -137,7 +204,7 @@ npx orchestra ui
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### ✨ Fitur Interaktif Hotkey:
+#### ✨ Hotkey Navigasi Interaktif:
 * `[c]` Jalankan Quality Gatekeeper (`orchestra check`) secara instan.
 * `[b]` Majukan langkah aktif pada Baton roadmap (`orchestra session checkpoint`).
 * `[m]` Otomatis konfigurasi MCP server untuk IDE (`orchestra mcp-setup`).
@@ -147,7 +214,7 @@ npx orchestra ui
 
 ---
 
-## 🔌 2. Native Orchestra MCP Server (Model Context Protocol)
+### 🔌 Pilar 2: Native Orchestra MCP Server (Model Context Protocol)
 
 Orchestra menyertakan server MCP native bawaan (**Zero-Dependency, instan <10ms, berbasis JSON-RPC 2.0 over STDIO**) yang menghubungkan Cursor, Claude Desktop, dan Antigravity langsung ke tools aktif:
 
@@ -159,7 +226,7 @@ npx orchestra mcp-setup
 npx orchestra mcp
 ```
 
-### 🛠️ 6 Tools Aktif yang Disediakan untuk AI:
+#### 🛠️ 6 Tools Aktif yang Disediakan untuk AI:
 | Tool Name | Fungsi & Nilai Manfaat |
 |---|---|
 | `orchestra_resolve_skill` | AI mengirimkan deskripsi tugas, Orchestra langsung mengembalikan aturan teknis & token desain yang relevan tanpa memenuhi context window di awal. |
@@ -171,9 +238,9 @@ npx orchestra mcp
 
 ---
 
-## 📦 3. Modular Skill Registry & Package Manager (`orchestra skill`)
+### 📦 Pilar 3: Modular Skill Registry & Package Manager (`orchestra skill`)
 
-Orchestra kini berfungsi sebagai package manager khusus untuk AI Skills layaknya Homebrew atau NPM:
+Orchestra berfungsi sebagai package manager khusus untuk AI Skills layaknya Homebrew atau NPM:
 
 ```bash
 # Cari skill berdasarkan kata kunci atau tag di registry
@@ -202,7 +269,7 @@ Setiap skill yang di-install secara otomatis didaftarkan ke dalam matriks `SKILL
 
 ---
 
-## 📜 4. The Baton Protocol & Session Continuity (`orchestra session`)
+### 📜 Pilar 4: The Baton Protocol & Session Continuity (`orchestra session`)
 
 Untuk mengatasi masalah **AI amnesia** saat sesi percakapan panjang, token context window habis, atau saat berpindah antar editor (misal: Cursor ➔ Claude Code ➔ Antigravity), Orchestra menyediakan **Baton Protocol**:
 
@@ -230,7 +297,7 @@ State disimpan di `.agents/BATON.json`. Setiap AI yang membaca repositori ini ak
 
 ---
 
-## 🛡️ 5. Quality Gatekeeper CLI (`orchestra check`)
+### 🛡️ Pilar 5: Quality Gatekeeper CLI (`orchestra check`)
 
 Orchestra menyertakan scanner otomatis untuk memastikan AI tidak memasukkan kode rusak ke repository Anda:
 
@@ -248,7 +315,7 @@ npx orchestra install-hook
 npx orchestra init-ci
 ```
 
-### 🔬 4 Lapisan Verifikasi Gatekeeper:
+#### 🔬 4 Lapisan Verifikasi Gatekeeper:
 1. 🚫 **Anti-Truncation Guard:** Mendeteksi `// TODO`, `// ... rest of code`, fungsi stub kosong, dan `throw new NotImplementedError`.
 2. 🎨 **Anti-Slop Visual Inspector:** Mendeteksi gradient AI generik (`purple-500 -> pink-500`), shadow neon berlebihan, dan elemen button tanpa interactive hover/focus states.
 3. ⚙️ **Compiler & Linter Runner:** Menjalankan `tsc`, `flutter analyze`, atau `eslint` secara otomatis.
@@ -256,7 +323,7 @@ npx orchestra init-ci
 
 ---
 
-## 🎛️ Daftar Lengkap Perintah CLI
+## 🎛️ 7. Daftar Lengkap Perintah CLI
 
 ```text
 USAGE:
@@ -295,7 +362,7 @@ BATON PROTOCOL & SESSION COMMANDS:
 
 ---
 
-## 📚 Pustaka 23+ Core Skills Terpasang
+## 📚 8. Pustaka 23+ Core Skills Terpasang
 
 Orchestra menyertakan pustaka skill kelas dunia yang siap dipanggil:
 
@@ -322,7 +389,7 @@ Orchestra menyertakan pustaka skill kelas dunia yang siap dipanggil:
 
 ---
 
-## 🌐 Kompatibilitas Lintas Alat AI
+## 🌐 9. Kompatibilitas Lintas Alat AI
 
 Orchestra dirancang dengan standar universal:
 * ✅ **Google Antigravity & Gemini CLI** (Native `AGENTS.md`)
@@ -333,18 +400,20 @@ Orchestra dirancang dengan standar universal:
 
 ---
 
-## 🏛️ Architectural Decision Records & Roadmap
+## 🏛️ 10. Dokumen Rujukan & Roadmap
 
-* Ingin melihat keputusan arsitektur yang telah diekspor oleh Baton Protocol?  
+* Ingin melihat keputusan arsitektur yang diekspor otomatis oleh Baton Protocol?  
   👉 [**`docs/ADR.md`**](docs/ADR.md)
 * Ingin membaca analisis komparatif 21 repositori multi-agent sebelumnya?  
   👉 [**`docs/ANALYSIS_REPORT.md`**](docs/ANALYSIS_REPORT.md)
 * Ingin melihat blueprint mendalam 5 pilar evolusi Orchestra?  
   👉 [**`docs/ROADMAP.md`**](docs/ROADMAP.md)
+* Ingin melihat strategi Next Horizons (NPM, CI Marketplace, dan Rilis Resmi)?  
+  👉 [**`docs/NEXT_HORIZONS_STRATEGY.md`**](docs/NEXT_HORIZONS_STRATEGY.md)
 
 ---
 
-## 📄 Lisensi
+## 📄 11. Lisensi
 
 Dilisensikan di bawah [MIT License](LICENSE).  
 Diciptakan dengan dedikasi untuk masa depan rekayasa perangkat lunak otonom oleh **Rey Cannavaro**.
