@@ -3,8 +3,8 @@
   "version": "2.0.0",
   "description": "The Symphony Multi-Agent Operating System & Scaffolding Protocol for Autonomous AI Software Teams",
   "bin": {
-    "orchestra-nv": "./bin/index.js",
-    "orchestra": "./bin/index.js"
+    "orchestra-nv": "bin/index.js",
+    "orchestra": "bin/index.js"
   },
   "type": "module",
   "scripts": {
@@ -33,7 +33,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ReyCannavaro/orchestra.git"
+    "url": "git+https://github.com/ReyCannavaro/orchestra.git"
   },
   "homepage": "https://github.com/ReyCannavaro/orchestra#readme"
 }
