@@ -78,6 +78,7 @@ USAGE:
 
 COMMANDS:
   init             Scaffold Orchestra multi-agent architecture in current repository
+  dashboard, ui    Buka Interactive Mission Control Terminal Dashboard (TUI)
   mcp              Jalankan native JSON-RPC 2.0 Orchestra MCP Server di STDIO
   mcp-setup        Otomatis konfigurasi IDE (Cursor .cursor/mcp.json, Claude, Antigravity)
   session <action> Kelola sesi kerja multi-agent & Baton lock (start, status, checkpoint, end)
@@ -114,6 +115,33 @@ OPTIONS (for init):
   -f, --force          Timpa file yang sudah ada jika ada konflik
   --dry-run            Simulasikan scaffolding tanpa menulis file ke disk
 ```
+
+---
+
+## 🖥️ Interactive Mission Control Dashboard (`orchestra dashboard`)
+
+Orchestra menyediakan antarmuka terminal interaktif (**TUI Terminal UI**) zero-dependency yang memvisualisasikan ekosistem multi-agent Anda secara real-time:
+
+```bash
+# Buka Mission Control Dashboard
+npx orchestra dashboard
+
+# Atau alias singkat
+npx orchestra ui
+```
+
+### ✨ Fitur Utama Dashboard:
+1. **System & Stack Status:** Mendeteksi framework proyek (Next.js, Flutter, Node.js, dll.) dan status Git branch saat ini.
+2. **Multi-Agent Core Health:** Indikator real-time untuk `AGENTS.md`, `.agents/ORCHESTRATOR.md`, `SKILL_ROUTER.md`, `.cursorrules`, dan `CLAUDE.md`.
+3. **Pustaka Skills Tracker:** Menampilkan jumlah skill terpasang baik di proyek lokal (`.agents/skills`) maupun secara global (`~/.agents/skills`).
+4. **Active Baton Protocol & Roadmap:** Memantau active goal, ID sesi, pemegang baton saat ini, dan checklist progress roadmap secara langsung.
+5. **Interactive Hotkeys (Live Terminal):**
+   - `[c]` Jalankan Quality Gatekeeper (`orchestra check`) secara on-demand.
+   - `[b]` Majukan langkah aktif pada Baton roadmap (`orchestra session checkpoint`).
+   - `[m]` Otomatis konfigurasi MCP server untuk IDE (`orchestra mcp-setup`).
+   - `[r]` Refresh data dashboard secara real-time.
+   - `[q]` Keluar dari dashboard.
+*(Otomatis beralih ke mode Static Snapshot yang ramah CI/Piped output jika terminal tidak mendukung raw TTY).*
 
 ---
 

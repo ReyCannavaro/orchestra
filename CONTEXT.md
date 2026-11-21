@@ -146,3 +146,12 @@ Pada 21 November 2026:
   - Mengintegrasikan perintah `orchestra mcp` dan `orchestra mcp-setup` ke `bin/index.js`.
   - Teruji tuntas: pengujian handshake JSON-RPC 2.0 (initialize, tools/list, tools/call) melewati automated harness 100% lulus.
   - Memperbarui roadmap active Baton session di `.agents/BATON.json` (Step 4: COMPLETED ✔).
+- **Penyelesaian Penuh Tahap 5 (Pilar 5: Interactive Terminal UI / Mission Control Dashboard):**
+  - Mengembangkan antarmuka Terminal UI (TUI) interaktif murni (zero-dependency ANSI box-drawing) di `lib/dashboard/`:
+    - `lib/dashboard/state.js`: Agregator status real-time (Stack, Git, Baton session, Multi-Agent Health, Skills metrics, MCP config).
+    - `lib/dashboard/renderer.js`: Engine rendering ANSI mewah (Header, Status Bar, 2-column core health/skills panel, roadmap step list, hotkey shortcuts footer).
+    - `lib/dashboard/actions.js`: Handler hotkey interaktif (`[c]` quality check, `[b]` advance roadmap step, `[m]` IDE MCP setup, `[r]` refresh).
+    - `lib/dashboard/index.js`: Controller siklus hidup TTY raw mode keypress loop dengan fallback otomatis ke static snapshot mode untuk non-interactive/CI terminal.
+  - Mengintegrasikan perintah `orchestra dashboard` dan `orchestra ui` ke `bin/index.js`.
+  - Berhasil menyelesaikan seluruh siklus Roadmap 5 Pilar Orchestra 2.0 di `.agents/BATON.json` (Step 5: COMPLETED ✔) dan mengarsipkan sesi ke `.agents/history/`.
+  - Teruji tuntas: eksekusi dashboard, quality gatekeeper check (0 errors, 0 slop), dan update dokumentasi.

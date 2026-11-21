@@ -31,6 +31,7 @@ import {
   skillNew,
 } from '../lib/skills/index.js';
 import { startMcpServer, setupIdeMcpConfig } from '../lib/mcp/index.js';
+import { startDashboard } from '../lib/dashboard/index.js';
 import { colors } from '../lib/utils/colors.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -67,6 +68,7 @@ ${colors.bold}USAGE:${colors.reset}
 
 ${colors.bold}CORE COMMANDS:${colors.reset}
   ${colors.green}init${colors.reset}                    Scaffold Orchestra multi-agent architecture in current repository
+  ${colors.green}dashboard, ui${colors.reset}           Launch interactive Mission Control Terminal Dashboard
   ${colors.green}check, doctor${colors.reset}           Run Quality Gatekeeper (Anti-Slop, Anti-Truncation, Agent Health)
   ${colors.green}install-hook${colors.reset}            Install Git pre-commit guardrail hook to prevent bad commits
   ${colors.green}init-ci${colors.reset}                 Generate GitHub Actions CI workflow for PR verification
@@ -334,6 +336,8 @@ while (i < rawArgs.length) {
     arg === 'hook' ||
     arg === 'init-ci' ||
     arg === 'ci' ||
+    arg === 'dashboard' ||
+    arg === 'ui' ||
     arg === 'session' ||
     arg === 'baton' ||
     arg === 'skill' ||
@@ -429,6 +433,18 @@ switch (command) {
       })
       .catch(err => {
         console.error(`${colors.red}Quality check encountered an unexpected error:${colors.reset}`, err);
+        process.exit(1);
+      });
+    break;
+
+  case 'dashboard':
+  case 'ui':
+    startDashboard(options)
+      .then(code => {
+        process.exit(code);
+      })
+      .catch(err => {
+        console.error(`${colors.red}Dashboard encountered an unexpected error:${colors.reset}`, err);
         process.exit(1);
       });
     break;
