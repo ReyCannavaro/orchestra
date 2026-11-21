@@ -113,5 +113,12 @@ Orchestra dirancang dengan standar universal:
 
 ---
 
+## 🗺️ Engineering Roadmap
+Ingin melihat arah pengembangan masa depan Orchestra menjadi AI Operating System mandiri?
+Baca blueprint mendalam 5 pilar strategis kami di:
+👉 [**`docs/ROADMAP.md`**](docs/ROADMAP.md)
+
+---
+
 ## 📄 Lisensi
 Dilisensikan di bawah [MIT License](LICENSE). Dibuat dengan dedikasi oleh **Rey Cannavaro**.

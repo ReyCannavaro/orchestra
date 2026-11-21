@@ -102,3 +102,4 @@ Pada 14 November 2026:
   - `flutter-mobile`: Instruksi arsitektur immutability, `const` constructor hygiene, responsive layout (`SafeArea`, `LayoutBuilder`), dan clean lifecycle management.
   - `monorepo`: Instruksi package boundaries, larangan circular dependency, task graph cache friendly, dan integrasi conflict matrix.
 - **Pembaruan Repositori:** Mengarahkan seluruh URL placeholder ke repositori resmi `https://github.com/ReyCannavaro/orchestra`.
+- **Master Strategic Roadmap Created:** Merumuskan dokumen blueprint strategis super mendalam 5 pilar evolusi Orchestra di [`docs/ROADMAP.md`](docs/ROADMAP.md) (Native MCP Server, Quality Gatekeeper CLI, Skill Package Manager, Dynamic Baton Handover, dan Mission Control TUI).
