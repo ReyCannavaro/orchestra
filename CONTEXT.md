@@ -86,3 +86,72 @@ Ketika Anda memulai sesi baru di dalam folder `C:\Users\Rey Cannavaro\orchestra`
    - Lengkapi file template di `templates/` agar siap di-copy ke repo target ketika `orchestra init` dijalankan.
    - Siapkan installer script `install.ps1` dan `install.sh` untuk teman yang ingin setup global library `~/.agents`.
    - Buatkan dokumentasi `README.md` yang memukau untuk GitHub.
+
+---
+
+## 📈 6. Riwayat Pengembangan & Update Terbaru (Branch `dev`)
+
+Pada 14 November 2026:
+- **Remote Installer Implementation:** Menyempurnakan `install.ps1` dan `install.sh` dengan mekanisme download arsip riil dari `ReyCannavaro/orchestra` saat dijalankan via one-liner remote (`irm ... | iex` atau `curl ... | bash`).
+- **CLI Expansion (`bin/index.js`):**
+  - Menambahkan argumen non-interaktif: `--preset <name>`, `-y`/`--yes`, `-f`/`--force`, `--dry-run`, dan `-v`/`--version`.
+  - Memuat versi secara dinamis dari `package.json`.
+  - Normalisasi opsi input preset (1-4 atau string identifier).
+- **Diferensiasi Template Spesifik:**
+  - `nextjs-fullstack`: Instruksi Server Components vs Client Components, App Router, Server Actions, dan anti-hydration error.
+  - `flutter-mobile`: Instruksi arsitektur immutability, `const` constructor hygiene, responsive layout (`SafeArea`, `LayoutBuilder`), dan clean lifecycle management.
+  - `monorepo`: Instruksi package boundaries, larangan circular dependency, task graph cache friendly, dan integrasi conflict matrix.
+- **Pembaruan Repositori:** Mengarahkan seluruh URL placeholder ke repositori resmi `https://github.com/ReyCannavaro/orchestra`.
+- **Master Strategic Roadmap Created:** Merumuskan dokumen blueprint strategis super mendalam 5 pilar evolusi Orchestra di [`docs/ROADMAP.md`](docs/ROADMAP.md) (Native MCP Server, Quality Gatekeeper CLI, Skill Package Manager, Dynamic Baton Handover, dan Mission Control TUI).
+
+Pada 21 November 2026:
+- **Penyelesaian Penuh Tahap 1 (Pilar 2: Quality Gatekeeper CLI):**
+  - Mengembangkan arsitektur modular di folder `lib/`:
+    - `lib/utils/colors.js` & `lib/utils/git.js`: Helper git diff/status/staged scannable files.
+    - `lib/checker/truncationRule.js`: Mendeteksi pemotongan kode, stub, dan `// TODO`.
+    - `lib/checker/antiSlopRule.js`: Mendeteksi gradient ungu-pink generik, shadow neon berlebihan, dan elemen button tanpa interactive states.
+    - `lib/checker/compilerRule.js`: Menjalankan typecheck / linter sesuai stack (`tsc`, `dart analyze`, `eslint`).
+    - `lib/checker/agentHealthRule.js`: Memverifikasi integritas konfigurasi agent & IDE bridges.
+    - `lib/checker/reporter.js`: Terminal diagnostic report berstandar tinggi.
+    - `lib/hooks/installHook.js`: Pemasang otomatis Git pre-commit hook dan generator GitHub Actions CI workflow.
+  - Mengintegrasikan perintah `orchestra check`, `orchestra doctor`, `orchestra install-hook`, dan `orchestra init-ci` ke `bin/index.js`.
+  - Berhasil diuji coba menyeluruh (termasuk verifikasi deteksi pelanggaran dengan test suite sementara).
+- **Penyelesaian Penuh Tahap 2 (Pilar 4: Dynamic Baton Protocol & Session Handover Engine):**
+  - Mengembangkan arsitektur state management di `lib/session/`:
+    - `lib/session/schema.js`: Skema data `.agents/BATON.json`, ID sesi otomatis, roadmap 4-fase terstruktur.
+    - `lib/session/batonManager.js`: Read/write `.agents/BATON.json`, arsip history sesi (`.agents/history/`), dan generator `docs/ADR.md`.
+    - `lib/session/reporter.js`: Visualisasi status sesi, active goal, baton holder, roadmap steps, touched files, dan ADRs.
+    - `lib/session/index.js`: API lengkap: `sessionStart`, `sessionStatus`, `sessionCheckpoint`, `sessionAcquire`, `sessionRelease`, `sessionEnd`.
+  - Mengintegrasikan perintah `orchestra session` dan `orchestra baton` ke `bin/index.js`.
+  - Mengupdate seluruh directive `AGENTS.md` (root & semua templates) dengan aksioma ke-5: *State Continuity & The Baton Protocol*.
+  - Teruji tuntas: start session, checkpoint advance, touch file tracking, ADR logging, baton handover, dan auto-archive saat end session.
+- **Penyelesaian Penuh Tahap 3 (Pilar 3: Modular Skill Registry & Package Manager):**
+  - Membuat format manifest terstandarisasi `skill.json` dan central index `registry/index.json` (mengindeks 23 core skills dengan kategori & tags).
+  - Mengembangkan modul `lib/skills/`:
+    - `lib/skills/manifest.js`: Parser & generator manifest `skill.json` serta ekstraktor frontmatter `SKILL.md`.
+    - `lib/skills/registry.js`: Resolusi registry hybrid (local `registry/index.json` & remote GitHub CDN fallback).
+    - `lib/skills/reporter.js`: Tampilan tabel ANSI untuk `skill list` dan `skill search`.
+    - `lib/skills/routerUpdater.js`: Auto-injection skill baru ke dalam `.agents/SKILL_ROUTER.md`.
+    - `lib/skills/index.js`: API lengkap perintah CLI: `skillList`, `skillSearch`, `skillAdd`, `skillRemove`, `skillUpdate`, dan `skillNew`.
+  - Mengintegrasikan perintah `orchestra skill` / `skills` ke `bin/index.js`.
+  - Teruji tuntas: listing skills, pencarian berbasis keyword/tag, penambahan skill lokal/global, scaffolding skill baru, dan penghapusan skill.
+  - Memperbarui roadmap active Baton session di `.agents/BATON.json` (Step 3: COMPLETED ✔).
+- **Penyelesaian Penuh Tahap 4 (Pilar 1: Native Orchestra MCP Server):**
+  - Mengembangkan native JSON-RPC 2.0 Model Context Protocol (MCP) Server di `lib/mcp/`:
+    - `lib/mcp/tools.js`: Deklarasi schema 6 tools standar MCP (`orchestra_resolve_skill`, `acquire_baton`, `release_baton`, `verify_diff`, `session_status`, `list_skills`).
+    - `lib/mcp/handlers.js`: Implementasi eksekusi aktif untuk masing-masing tool (lazy skill resolving, locking, verification).
+    - `lib/mcp/server.js`: Zero-dependency STDIO message loop dengan stream terisolasi (stdout murni JSON-RPC, stderr untuk log diagnosa).
+    - `lib/mcp/ideConfig.js`: Generator konfigurasi multi-IDE (`.cursor/mcp.json`, Claude Desktop snippet, Antigravity instruction).
+    - `lib/mcp/index.js`: Entrypoint CLI `runMcpServer` dan `setupIdeMcpConfig`.
+  - Mengintegrasikan perintah `orchestra mcp` dan `orchestra mcp-setup` ke `bin/index.js`.
+  - Teruji tuntas: pengujian handshake JSON-RPC 2.0 (initialize, tools/list, tools/call) melewati automated harness 100% lulus.
+  - Memperbarui roadmap active Baton session di `.agents/BATON.json` (Step 4: COMPLETED ✔).
+- **Penyelesaian Penuh Tahap 5 (Pilar 5: Interactive Terminal UI / Mission Control Dashboard):**
+  - Mengembangkan antarmuka Terminal UI (TUI) interaktif murni (zero-dependency ANSI box-drawing) di `lib/dashboard/`:
+    - `lib/dashboard/state.js`: Agregator status real-time (Stack, Git, Baton session, Multi-Agent Health, Skills metrics, MCP config).
+    - `lib/dashboard/renderer.js`: Engine rendering ANSI mewah (Header, Status Bar, 2-column core health/skills panel, roadmap step list, hotkey shortcuts footer).
+    - `lib/dashboard/actions.js`: Handler hotkey interaktif (`[c]` quality check, `[b]` advance roadmap step, `[m]` IDE MCP setup, `[r]` refresh).
+    - `lib/dashboard/index.js`: Controller siklus hidup TTY raw mode keypress loop dengan fallback otomatis ke static snapshot mode untuk non-interactive/CI terminal.
+  - Mengintegrasikan perintah `orchestra dashboard` dan `orchestra ui` ke `bin/index.js`.
+  - Berhasil menyelesaikan seluruh siklus Roadmap 5 Pilar Orchestra 2.0 di `.agents/BATON.json` (Step 5: COMPLETED ✔) dan mengarsipkan sesi ke `.agents/history/`.
+  - Teruji tuntas: eksekusi dashboard, quality gatekeeper check (0 errors, 0 slop), dan update dokumentasi.

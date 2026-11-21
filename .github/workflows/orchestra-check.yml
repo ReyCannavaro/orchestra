@@ -1,0 +1,27 @@
+name: Orchestra Quality Gatekeeper
+
+on:
+  push:
+    branches: [ main, dev, master ]
+  pull_request:
+    branches: [ main, dev, master ]
+
+jobs:
+  orchestra-guardrails:
+    name: Verify Code Completeness & Anti-Slop
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Orchestra Quality Check
+        run: |
+          npx orchestra check --all --fast

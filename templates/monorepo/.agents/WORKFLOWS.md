@@ -1,49 +1,51 @@
-# 📋 WORKFLOWS: Standard Operating Procedures (SOP)
+# 📋 WORKFLOWS: Monorepo Standard Operating Procedures (SOP)
 
-Alur kerja terstandarisasi untuk setiap kategori tugas pengembangan pada repositori ini:
+Alur kerja terstandarisasi untuk pengembangan monorepo multi-package pada repositori ini:
 
 ---
 
-## 1. Workflow Pengerjaan Frontend Web / Komponen UI
+## 1. Workflow Modifikasi Shared Package / Core Library
 
 ```text
-[Analisis Brief & Kebutuhan UI]
-         │
-         ▼
-[Buka Skill: design-taste-frontend & responsive-craft]
-         │
-         ▼
-[Definisikan Design Tokens & Colors (Tanpa Gradient Default Murahan)]
-         │
-         ▼
-[Implementasikan Komponen secara Utuh (Full Output)]
-         │
-         ▼
-[Validasi Responsif: Uji Layar Desktop (>1024px) dan Mobile (<768px)]
+[Analisis Dampak Perubahan ke Seluruh Aplikasi Konsumen]
+                          │
+                          ▼
+[Perbarui Kontrak / Tipe di packages/shared atau packages/types]
+                          │
+                          ▼
+[Verifikasi Backward Compatibility & Compile Shared Package]
+                          │
+                          ▼
+[Perbarui Aplikasi Pengguna (apps/web, apps/mobile, apps/api)]
+                          │
+                          ▼
+[Jalankan Typecheck & Test pada Seluruh Workspace yang Terdampak]
 ```
 
 ---
 
-## 2. Workflow Pengerjaan Backend / API / Database
+## 2. Workflow Penambahan Paket / App Baru
 
 ```text
-[Rancang Skema Data / Kontrak Interface]
-         │
-         ▼
-[Validasi Input Menggunakan Skema Validasi Ketat (TypeBox / Zod)]
-         │
-         ▼
-[Implementasikan Handler Endpoint dengan Penanganan Error Eksplisit]
-         │
-         ▼
-[Uji Endpoint (Unit Test / Curl / Browser)]
+[Inisialisasi Folder di apps/ atau packages/ sesuai Struktur Monorepo]
+                          │
+                          ▼
+[Konfigurasi package.json dengan Scope yang Tepat & Workspace Dependencies]
+                          │
+                          ▼
+[Daftarkan ke Konfigurasi Monorepo (pnpm-workspace.yaml / turbo.json / moon.yml)]
+                          │
+                          ▼
+[Hubungkan ke Core Tooling (Shared ESLint, Prettier, TypeScript Config)]
+                          │
+                          ▼
+[Verifikasi Build Task Pipeline: pnpm run build / turbo run build]
 ```
 
 ---
 
-## 3. Workflow Perbaikan Bug (Debugging Protocol)
+## 3. Workflow Mitigasi Konflik & Pre-Flight Verification
 
-1. **Reproduce First:** Pastikan bug dapat direplikasi sebelum menyentuh kode.
-2. **Root Cause Analysis:** Cari sumber masalah sebenarnya, jangan hanya menambal gejala di permukaan (*symptomatic patching*).
-3. **Targeted Fix:** Terapkan perbaikan sespesifik mungkin untuk meminimalkan efek samping (*blast radius*).
-4. **Verification:** Jalankan test suite atau verifikasi manual untuk membuktikan bug telah terselesaikan.
+1. **Check Conflict Matrix:** Jika ada konflik kepentingan antara frontend app vs core service, konsultasikan aturan hierarki pada `.agents/rules/conflict-matrix.md`.
+2. **Impact Boundary Test:** Pastikan perubahan tidak memicu break pada aplikasi lain di monorepo (`turbo run test` atau `pnpm -r run test`).
+3. **No Phantom Dependencies:** Pastikan setiap dependency yang digunakan benar-benar dideklarasikan di `package.json` package masing-masing, bukan hanya bergantung pada hoisting root.
