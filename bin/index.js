@@ -12,6 +12,10 @@ import os from 'node:os';
 import readline from 'node:readline/promises';
 import { fileURLToPath } from 'node:url';
 
+import { runChecker } from '../lib/checker/index.js';
+import { installGitHook, initCIWorkflow } from '../lib/hooks/installHook.js';
+import { colors } from '../lib/utils/colors.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -25,19 +29,6 @@ try {
     if (pkg.version) PKG_VERSION = pkg.version;
   }
 } catch {}
-
-// ANSI Color Helpers
-const colors = {
-  reset: '\x1b[0m',
-  bold: '\x1b[1m',
-  dim: '\x1b[2m',
-  cyan: '\x1b[36m',
-  green: '\x1b[32m',
-  yellow: '\x1b[33m',
-  blue: '\x1b[34m',
-  magenta: '\x1b[35m',
-  red: '\x1b[31m',
-};
 
 function banner() {
   console.log(`
@@ -59,10 +50,20 @@ ${colors.bold}USAGE:${colors.reset}
 
 ${colors.bold}COMMANDS:${colors.reset}
   ${colors.green}init${colors.reset}             Scaffold Orchestra multi-agent architecture in current repository
+  ${colors.green}check, doctor${colors.reset}    Run Quality Gatekeeper (Anti-Slop, Anti-Truncation, Agent Health)
+  ${colors.green}install-hook${colors.reset}     Install Git pre-commit guardrail hook to prevent bad commits
+  ${colors.green}init-ci${colors.reset}          Generate GitHub Actions CI workflow for PR verification
   ${colors.green}setup-global${colors.reset}     Install/Sync 23+ core skills to ~/.agents/skills (Global Hub)
   ${colors.green}list-skills${colors.reset}      Display all available core skills in the Orchestra library
   ${colors.green}version, -v${colors.reset}      Display Orchestra version
   ${colors.green}help, --help${colors.reset}     Show this help menu
+
+${colors.bold}OPTIONS (for check / doctor):${colors.reset}
+  ${colors.cyan}--staged${colors.reset}             Only verify Git staged files (default for pre-commit)
+  ${colors.cyan}--all${colors.reset}                Verify all files across the repository
+  ${colors.cyan}--fix${colors.reset}                Automatically fix repairable configuration issues
+  ${colors.cyan}--fast${colors.reset}               Fast mode: run AST/regex checks, skip slow compilers
+  ${colors.cyan}--run-linter${colors.reset}         Run project linter script (npm run lint) if configured
 
 ${colors.bold}OPTIONS (for init):${colors.reset}
   ${colors.cyan}-p, --preset <name>${colors.reset}  Specify preset: universal, nextjs-fullstack, flutter-mobile, monorepo
@@ -71,11 +72,10 @@ ${colors.bold}OPTIONS (for init):${colors.reset}
   ${colors.cyan}--dry-run${colors.reset}            Simulate scaffolding without modifying files
 
 ${colors.bold}EXAMPLES:${colors.reset}
-  $ npx orchestra init
-  $ npx orchestra init -y
+  $ npx orchestra check
+  $ npx orchestra check --staged --fast
+  $ npx orchestra install-hook
   $ npx orchestra init --preset nextjs-fullstack -y
-  $ npx orchestra setup-global
-  $ npx orchestra list-skills
 `);
 }
 
@@ -299,11 +299,29 @@ const options = {
   yes: false,
   force: false,
   dryRun: false,
+  staged: false,
+  all: false,
+  fix: false,
+  fast: false,
+  skipCompiler: false,
+  runLinter: false,
 };
 
 for (let i = 0; i < rawArgs.length; i++) {
   const arg = rawArgs[i];
-  if (arg === 'init' || arg === 'setup-global' || arg === 'install-skills' || arg === 'list-skills' || arg === 'help') {
+  if (
+    arg === 'init' ||
+    arg === 'setup-global' ||
+    arg === 'install-skills' ||
+    arg === 'list-skills' ||
+    arg === 'check' ||
+    arg === 'doctor' ||
+    arg === 'install-hook' ||
+    arg === 'hook' ||
+    arg === 'init-ci' ||
+    arg === 'ci' ||
+    arg === 'help'
+  ) {
     command = arg;
   } else if (arg === '-v' || arg === '--version' || arg === 'version') {
     command = 'version';
@@ -315,6 +333,17 @@ for (let i = 0; i < rawArgs.length; i++) {
     options.force = true;
   } else if (arg === '--dry-run') {
     options.dryRun = true;
+  } else if (arg === '--staged') {
+    options.staged = true;
+  } else if (arg === '--all') {
+    options.all = true;
+  } else if (arg === '--fix') {
+    options.fix = true;
+  } else if (arg === '--fast' || arg === '--skip-compiler') {
+    options.fast = true;
+    options.skipCompiler = true;
+  } else if (arg === '--run-linter') {
+    options.runLinter = true;
   } else if (arg === '-p' || arg === '--preset') {
     options.preset = rawArgs[++i];
   } else if (arg.startsWith('--preset=')) {
@@ -327,19 +356,51 @@ switch (command) {
   case 'version':
     console.log(`v${PKG_VERSION}`);
     break;
+
   case 'init':
     initCommand(options).catch(err => {
       console.error(`${colors.red}Initialization failed:${colors.reset}`, err.message);
       process.exit(1);
     });
     break;
+
+  case 'check':
+  case 'doctor':
+    runChecker(options)
+      .then(code => {
+        process.exit(code);
+      })
+      .catch(err => {
+        console.error(`${colors.red}Quality check encountered an unexpected error:${colors.reset}`, err);
+        process.exit(1);
+      });
+    break;
+
+  case 'install-hook':
+  case 'hook':
+    {
+      const code = installGitHook();
+      process.exit(code);
+    }
+    break;
+
+  case 'init-ci':
+  case 'ci':
+    {
+      const code = initCIWorkflow();
+      process.exit(code);
+    }
+    break;
+
   case 'setup-global':
   case 'install-skills':
     setupGlobal().catch(console.error);
     break;
+
   case 'list-skills':
     listSkills().catch(console.error);
     break;
+
   case 'help':
   default:
     showHelp();

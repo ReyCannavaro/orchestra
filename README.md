@@ -78,17 +78,50 @@ USAGE:
 
 COMMANDS:
   init             Scaffold Orchestra multi-agent architecture in current repository
+  check, doctor    Run Quality Gatekeeper (Anti-Slop, Anti-Truncation, Agent Health)
+  install-hook     Install Git pre-commit guardrail hook to prevent bad commits
+  init-ci          Generate GitHub Actions CI workflow for PR verification
   setup-global     Install/Sync 23+ core skills to ~/.agents/skills (Global Hub)
   list-skills      Display all available core skills in the Orchestra library
+  version, -v      Tampilkan versi Orchestra
   help, --help     Show this help menu
+
+OPTIONS (for check / doctor):
+  --staged             Hanya verifikasi file yang sudah di-stage di Git (default pre-commit)
+  --all                Verifikasi seluruh file source code di repositori
+  --fix                Otomatis perbaiki masalah konfigurasi/bridge yang hilang
+  --fast               Mode cepat: jalankan scanner AST/regex, lewati compiler lambat
+  --run-linter         Jalankan script linter proyek (npm run lint) jika terkonfigurasi
 
 OPTIONS (for init):
   -p, --preset <name>  Pilih preset langsung: universal, nextjs-fullstack, flutter-mobile, monorepo
   -y, --yes            Terima preset tanpa prompt interaktif
   -f, --force          Timpa file yang sudah ada jika ada konflik
   --dry-run            Simulasikan scaffolding tanpa menulis file ke disk
-  -v, --version        Tampilkan versi Orchestra
 ```
+
+---
+
+## 🛡️ Quality Gatekeeper (Anti-Slop & Anti-Truncation)
+
+Orchestra menyertakan scanner otomatis untuk memastikan AI tidak memasukkan kode rusak ke repository Anda:
+
+```bash
+# Periksa kode yang baru diubah sebelum commit
+npx orchestra check
+
+# Otomatis pasang hook pre-commit agar tidak ada kode slop yang bisa di-commit
+npx orchestra install-hook
+
+# Generate workflow GitHub Actions untuk proteksi Pull Request
+npx orchestra init-ci
+```
+
+Scanner memeriksa 4 lapisan:
+1. 🚫 **Anti-Truncation Guard:** Mendeteksi `// TODO`, `// ... rest of code`, fungsi stub kosong.
+2. 🎨 **Anti-Slop Visual Inspector:** Mendeteksi palette AI generik (gradient ungu-pink murah, shadow neon berlebihan, button tanpa interactive hover/focus states).
+3. ⚙️ **Compiler & Linter Runner:** Menjalankan `tsc`, `flutter analyze`, atau `eslint` secara otomatis.
+4. 🩺 **Agent Health & Integrity:** Memastikan integritas konfigurasi `AGENTS.md`, `.agents/`, `.cursorrules`, dan `CLAUDE.md`.
 
 ---
 
