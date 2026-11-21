@@ -47,4 +47,4 @@ else
 fi
 
 echo -e "\033[1;32m✔ Successfully installed Orchestra Core Skills to $TARGET_DIR\033[0m"
-echo -e "\033[1;35m✨ To scaffold a project, run: npx orchestra init\033[0m\n"
+echo -e "\033[1;35m✨ To scaffold a project, run: npx orchestra-os init\033[0m\n"

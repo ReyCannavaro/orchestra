@@ -1,4 +1,4 @@
-# Orchestra Windows Installer (PowerShell)
+﻿# Orchestra Windows Installer (PowerShell)
 # One-liner execution: irm https://raw.githubusercontent.com/ReyCannavaro/orchestra/main/install.ps1 | iex
 
 $ErrorActionPreference = "Stop"
@@ -50,5 +50,5 @@ if ($ScriptDir -and (Test-Path (Join-Path $ScriptDir "core-skills"))) {
 }
 
 Write-Host "✔ Successfully installed Orchestra Core Skills to $TargetDir" -ForegroundColor Green
-Write-Host "✨ To scaffold a project, run: npx orchestra init" -ForegroundColor Magenta
+Write-Host "✨ To scaffold a project, run: npx orchestra-os init" -ForegroundColor Magenta
 Write-Host ""

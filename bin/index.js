@@ -65,7 +65,8 @@ function showHelp() {
   banner();
   console.log(`
 ${colors.bold}USAGE:${colors.reset}
-  npx orchestra <command> [subcommand] [options]
+  npx orchestra-os <command> [subcommand] [options]
+  (or npx orchestra <command>)
 
 ${colors.bold}CORE COMMANDS:${colors.reset}
   ${colors.green}init${colors.reset}                    Scaffold Orchestra multi-agent architecture in current repository
@@ -123,10 +124,12 @@ ${colors.bold}OPTIONS (for init):${colors.reset}
   ${colors.cyan}--dry-run${colors.reset}                 Simulate scaffolding without modifying files
 
 ${colors.bold}EXAMPLES:${colors.reset}
-  $ npx orchestra mcp-setup
-  $ npx orchestra mcp
-  $ npx orchestra skill search stripe
-  $ npx orchestra session start "Implement Lucia Authentication"
+  $ npx orchestra-os init
+  $ npx orchestra-os dashboard
+  $ npx orchestra-os mcp-setup
+  $ npx orchestra-os skill search stripe
+  $ npx orchestra-os check
+  $ npx orchestra-os session start "Implement Lucia Authentication"
 `);
 }
 
