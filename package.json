@@ -1,13 +1,13 @@
 {
   "name": "orchestra",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Universal AI Agent Orchestration & Scaffolding Kit for High-Performance Software Teams",
   "bin": {
     "orchestra": "./bin/index.js"
   },
   "type": "module",
   "scripts": {
-    "test": "node ./bin/index.js --help"
+    "test": "node ./bin/index.js check --fast"
   },
   "keywords": [
     "ai-agent",

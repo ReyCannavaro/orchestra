@@ -29,6 +29,7 @@ import {
   skillRemove,
   skillUpdate,
   skillNew,
+  setupGlobalSkills,
 } from '../lib/skills/index.js';
 import { startMcpServer, setupIdeMcpConfig } from '../lib/mcp/index.js';
 import { startDashboard } from '../lib/dashboard/index.js';
@@ -615,6 +616,11 @@ switch (command) {
 
   case 'setup-global':
   case 'install-skills':
+    setupGlobalSkills(options)
+      .then(code => process.exit(code))
+      .catch(console.error);
+    break;
+
   case 'list-skills':
     skillList(options)
       .then(code => process.exit(code))
