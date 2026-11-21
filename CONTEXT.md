@@ -116,3 +116,12 @@ Pada 21 November 2026:
     - `lib/hooks/installHook.js`: Pemasang otomatis Git pre-commit hook dan generator GitHub Actions CI workflow.
   - Mengintegrasikan perintah `orchestra check`, `orchestra doctor`, `orchestra install-hook`, dan `orchestra init-ci` ke `bin/index.js`.
   - Berhasil diuji coba menyeluruh (termasuk verifikasi deteksi pelanggaran dengan test suite sementara).
+- **Penyelesaian Penuh Tahap 2 (Pilar 4: Dynamic Baton Protocol & Session Handover Engine):**
+  - Mengembangkan arsitektur state management di `lib/session/`:
+    - `lib/session/schema.js`: Skema data `.agents/BATON.json`, ID sesi otomatis, roadmap 4-fase terstruktur.
+    - `lib/session/batonManager.js`: Read/write `.agents/BATON.json`, arsip history sesi (`.agents/history/`), dan generator `docs/ADR.md`.
+    - `lib/session/reporter.js`: Visualisasi status sesi, active goal, baton holder, roadmap steps, touched files, dan ADRs.
+    - `lib/session/index.js`: API lengkap: `sessionStart`, `sessionStatus`, `sessionCheckpoint`, `sessionAcquire`, `sessionRelease`, `sessionEnd`.
+  - Mengintegrasikan perintah `orchestra session` dan `orchestra baton` ke `bin/index.js`.
+  - Mengupdate seluruh directive `AGENTS.md` (root & semua templates) dengan aksioma ke-5: *State Continuity & The Baton Protocol*.
+  - Teruji tuntas: start session, checkpoint advance, touch file tracking, ADR logging, baton handover, dan auto-archive saat end session.

@@ -35,6 +35,8 @@ flowchart LR
    - Do not emit `// TODO: add remaining fields` or truncated widgets. Provide complete, runnable Dart code.
 5. **Memory & Lifecycle Safety:**
    - Properly dispose all controllers (`TextEditingController`, `AnimationController`, `ScrollController`, `StreamSubscription`) in `dispose()` to prevent memory leaks.
+6. **State Continuity & The Baton Protocol (`.agents/BATON.json`):**
+   - Check `.agents/BATON.json` before multi-step tasks. Resume from the `in_progress` step, respect the active baton holder, and record touched files and ADRs.
 
 ---
 
@@ -42,4 +44,5 @@ flowchart LR
 - **Master Orchestrator Protocol:** [`.agents/ORCHESTRATOR.md`](.agents/ORCHESTRATOR.md)
 - **Dynamic Skill Router:** [`.agents/SKILL_ROUTER.md`](.agents/SKILL_ROUTER.md)
 - **Flutter Workflows & SOP:** [`.agents/WORKFLOWS.md`](.agents/WORKFLOWS.md)
+- **Baton Session State:** [`.agents/BATON.json`](.agents/BATON.json)
 - **Quality Guardrails:** [`.agents/rules/`](.agents/rules/)

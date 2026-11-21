@@ -34,6 +34,8 @@ flowchart LR
    - Shared UI packages must enforce design tokens consistently across all web and mobile apps. Adhere to `.agents/rules/anti-slop.md`.
 5. **Full Output Enforcement (Zero Truncation):**
    - Provide complete, compilable files across all touched packages following `.agents/rules/full-output.md`.
+6. **State Continuity & The Baton Protocol (`.agents/BATON.json`):**
+   - Check `.agents/BATON.json` before multi-step tasks. Resume from the `in_progress` step, respect the active baton holder, and record touched files and ADRs.
 
 ---
 
@@ -42,4 +44,5 @@ flowchart LR
 - **Dynamic Skill Router:** [`.agents/SKILL_ROUTER.md`](.agents/SKILL_ROUTER.md)
 - **Monorepo Workflows & SOP:** [`.agents/WORKFLOWS.md`](.agents/WORKFLOWS.md)
 - **Conflict Resolution Matrix:** [`.agents/rules/conflict-matrix.md`](.agents/rules/conflict-matrix.md)
+- **Baton Session State:** [`.agents/BATON.json`](.agents/BATON.json)
 - **Quality Guardrails:** [`.agents/rules/`](.agents/rules/)

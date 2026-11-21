@@ -78,6 +78,7 @@ USAGE:
 
 COMMANDS:
   init             Scaffold Orchestra multi-agent architecture in current repository
+  session <action> Kelola sesi kerja multi-agent & Baton lock (start, status, checkpoint, end)
   check, doctor    Run Quality Gatekeeper (Anti-Slop, Anti-Truncation, Agent Health)
   install-hook     Install Git pre-commit guardrail hook to prevent bad commits
   init-ci          Generate GitHub Actions CI workflow for PR verification
@@ -85,6 +86,13 @@ COMMANDS:
   list-skills      Display all available core skills in the Orchestra library
   version, -v      Tampilkan versi Orchestra
   help, --help     Show this help menu
+
+OPTIONS (for session):
+  --step <N>           Pilih nomor langkah roadmap yang ditargetkan
+  --done, --completed  Tandai langkah roadmap selesai (otomatis memajukan langkah berikutnya)
+  --touch <file>       Catat file yang dimodifikasi ke riwayat sesi
+  --adr <text>         Catat Keputusan Arsitektural (ADR)
+  --role <name>        Tentukan pemegang baton (conductor, frontend, backend, qa)
 
 OPTIONS (for check / doctor):
   --staged             Hanya verifikasi file yang sudah di-stage di Git (default pre-commit)
@@ -99,6 +107,28 @@ OPTIONS (for init):
   -f, --force          Timpa file yang sudah ada jika ada konflik
   --dry-run            Simulasikan scaffolding tanpa menulis file ke disk
 ```
+
+---
+
+## 📜 The Baton Protocol & Session Continuity
+
+Untuk mengatasi masalah **AI amnesia** saat berpindah editor (misal: Cursor ➔ Claude Code ➔ Antigravity) atau saat token context window penuh, Orchestra menyediakan **Baton Protocol**:
+
+```bash
+# Mulai sesi pengerjaan baru dengan roadmap otomatis
+npx orchestra session start "Refactor Sistem Autentikasi"
+
+# Catat checkpoint: langkah 1 selesai & catat file yang dimutasi
+npx orchestra session checkpoint --step 1 --done --touch src/auth.ts --adr "ADR-001: Gunakan Lucia v3"
+
+# Lihat status sesi, pemegang baton, dan progress roadmap
+npx orchestra session status
+
+# Selesaikan sesi (otomatis jalankan verifikasi pre-flight & ekspor docs/ADR.md)
+npx orchestra session end
+```
+
+State disimpan di `.agents/BATON.json`. Setiap AI yang membaca repositori ini akan langsung mengenali langkah apa yang sedang dikerjakan dan tidak akan menimpa kode yang sudah selesai!
 
 ---
 

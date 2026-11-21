@@ -36,6 +36,8 @@ flowchart LR
 5. **Hydration & Type Safety:**
    - Zero hydration errors: do not render non-deterministic content (dates, random IDs) directly without client hydration guards.
    - Strict TypeScript: no unvalidated `any` casts.
+6. **State Continuity & The Baton Protocol (`.agents/BATON.json`):**
+   - Check `.agents/BATON.json` before multi-step tasks. Resume from the `in_progress` step, respect the active baton holder, and record touched files and ADRs.
 
 ---
 
@@ -43,4 +45,5 @@ flowchart LR
 - **Master Orchestrator Protocol:** [`.agents/ORCHESTRATOR.md`](.agents/ORCHESTRATOR.md)
 - **Dynamic Skill Router:** [`.agents/SKILL_ROUTER.md`](.agents/SKILL_ROUTER.md)
 - **Next.js Workflows & SOP:** [`.agents/WORKFLOWS.md`](.agents/WORKFLOWS.md)
+- **Baton Session State:** [`.agents/BATON.json`](.agents/BATON.json)
 - **Quality Guardrails:** [`.agents/rules/`](.agents/rules/)

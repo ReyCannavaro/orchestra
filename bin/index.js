@@ -14,6 +14,14 @@ import { fileURLToPath } from 'node:url';
 
 import { runChecker } from '../lib/checker/index.js';
 import { installGitHook, initCIWorkflow } from '../lib/hooks/installHook.js';
+import {
+  sessionStart,
+  sessionStatus,
+  sessionCheckpoint,
+  sessionAcquire,
+  sessionRelease,
+  sessionEnd,
+} from '../lib/session/index.js';
 import { colors } from '../lib/utils/colors.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -46,36 +54,52 @@ function showHelp() {
   banner();
   console.log(`
 ${colors.bold}USAGE:${colors.reset}
-  npx orchestra <command> [options]
+  npx orchestra <command> [subcommand] [options]
 
-${colors.bold}COMMANDS:${colors.reset}
-  ${colors.green}init${colors.reset}             Scaffold Orchestra multi-agent architecture in current repository
-  ${colors.green}check, doctor${colors.reset}    Run Quality Gatekeeper (Anti-Slop, Anti-Truncation, Agent Health)
-  ${colors.green}install-hook${colors.reset}     Install Git pre-commit guardrail hook to prevent bad commits
-  ${colors.green}init-ci${colors.reset}          Generate GitHub Actions CI workflow for PR verification
-  ${colors.green}setup-global${colors.reset}     Install/Sync 23+ core skills to ~/.agents/skills (Global Hub)
-  ${colors.green}list-skills${colors.reset}      Display all available core skills in the Orchestra library
-  ${colors.green}version, -v${colors.reset}      Display Orchestra version
-  ${colors.green}help, --help${colors.reset}     Show this help menu
+${colors.bold}CORE COMMANDS:${colors.reset}
+  ${colors.green}init${colors.reset}                    Scaffold Orchestra multi-agent architecture in current repository
+  ${colors.green}check, doctor${colors.reset}           Run Quality Gatekeeper (Anti-Slop, Anti-Truncation, Agent Health)
+  ${colors.green}install-hook${colors.reset}            Install Git pre-commit guardrail hook to prevent bad commits
+  ${colors.green}init-ci${colors.reset}                 Generate GitHub Actions CI workflow for PR verification
+  ${colors.green}setup-global${colors.reset}            Install/Sync 23+ core skills to ~/.agents/skills (Global Hub)
+  ${colors.green}list-skills${colors.reset}             Display all available core skills in the Orchestra library
+  ${colors.green}version, -v${colors.reset}             Display Orchestra version
+  ${colors.green}help, --help${colors.reset}            Show this help menu
+
+${colors.bold}BATON PROTOCOL & SESSION COMMANDS:${colors.reset}
+  ${colors.green}session start <goal>${colors.reset}    Initialize an orchestrated task session with roadmap tracking
+  ${colors.green}session status${colors.reset}          Display active session status, baton holder, roadmap, and ADRs
+  ${colors.green}session checkpoint${colors.reset}      Update roadmap step, record touched files, or log an ADR
+  ${colors.green}session acquire <role>${colors.reset}  Acquire baton lock for an agent role (frontend, backend, etc.)
+  ${colors.green}session release${colors.reset}         Release current baton lock to idle state
+  ${colors.green}session end${colors.reset}             Conclude session, run pre-flight check, and export ADRs
+
+${colors.bold}OPTIONS (for session checkpoint):${colors.reset}
+  ${colors.cyan}--step <N>${colors.reset}              Target step number in the roadmap
+  ${colors.cyan}--done, --completed${colors.reset}    Mark the target step as completed (advances next step)
+  ${colors.cyan}--in-progress${colors.reset}          Mark the target step as in-progress
+  ${colors.cyan}--touch <file>${colors.reset}         Record a modified file to session history
+  ${colors.cyan}--adr <text>${colors.reset}           Record an Architectural Decision Record
 
 ${colors.bold}OPTIONS (for check / doctor):${colors.reset}
-  ${colors.cyan}--staged${colors.reset}             Only verify Git staged files (default for pre-commit)
-  ${colors.cyan}--all${colors.reset}                Verify all files across the repository
-  ${colors.cyan}--fix${colors.reset}                Automatically fix repairable configuration issues
-  ${colors.cyan}--fast${colors.reset}               Fast mode: run AST/regex checks, skip slow compilers
-  ${colors.cyan}--run-linter${colors.reset}         Run project linter script (npm run lint) if configured
+  ${colors.cyan}--staged${colors.reset}                  Only verify Git staged files (default for pre-commit)
+  ${colors.cyan}--all${colors.reset}                     Verify all files across the repository
+  ${colors.cyan}--fix${colors.reset}                     Automatically fix repairable configuration issues
+  ${colors.cyan}--fast${colors.reset}                    Fast mode: run AST/regex checks, skip slow compilers
+  ${colors.cyan}--run-linter${colors.reset}              Run project linter script (npm run lint) if configured
 
 ${colors.bold}OPTIONS (for init):${colors.reset}
-  ${colors.cyan}-p, --preset <name>${colors.reset}  Specify preset: universal, nextjs-fullstack, flutter-mobile, monorepo
-  ${colors.cyan}-y, --yes${colors.reset}            Accept detected or specified preset without interactive prompt
-  ${colors.cyan}-f, --force${colors.reset}          Overwrite existing files if already present
-  ${colors.cyan}--dry-run${colors.reset}            Simulate scaffolding without modifying files
+  ${colors.cyan}-p, --preset <name>${colors.reset}       Specify preset: universal, nextjs-fullstack, flutter-mobile, monorepo
+  ${colors.cyan}-y, --yes${colors.reset}                 Accept detected or specified preset without interactive prompt
+  ${colors.cyan}-f, --force${colors.reset}               Overwrite existing files if already present
+  ${colors.cyan}--dry-run${colors.reset}                 Simulate scaffolding without modifying files
 
 ${colors.bold}EXAMPLES:${colors.reset}
-  $ npx orchestra check
+  $ npx orchestra session start "Implement Lucia Authentication"
+  $ npx orchestra session checkpoint --step 1 --done --adr "ADR-001: Use HTTP-only cookies"
+  $ npx orchestra session status
+  $ npx orchestra session end
   $ npx orchestra check --staged --fast
-  $ npx orchestra install-hook
-  $ npx orchestra init --preset nextjs-fullstack -y
 `);
 }
 
@@ -294,6 +318,8 @@ Mandatory Skill Resolution: Refer to .agents/SKILL_ROUTER.md.
 // Argument Parser
 const rawArgs = process.argv.slice(2);
 let command = 'help';
+let subcommand = null;
+let positionalArg = null;
 const options = {
   preset: null,
   yes: false,
@@ -305,10 +331,21 @@ const options = {
   fast: false,
   skipCompiler: false,
   runLinter: false,
+  steps: null,
+  role: null,
+  step: null,
+  done: false,
+  completed: false,
+  inProgress: false,
+  touch: [],
+  adr: [],
+  skipCheck: false,
 };
 
-for (let i = 0; i < rawArgs.length; i++) {
+let i = 0;
+while (i < rawArgs.length) {
   const arg = rawArgs[i];
+
   if (
     arg === 'init' ||
     arg === 'setup-global' ||
@@ -320,9 +357,18 @@ for (let i = 0; i < rawArgs.length; i++) {
     arg === 'hook' ||
     arg === 'init-ci' ||
     arg === 'ci' ||
+    arg === 'session' ||
+    arg === 'baton' ||
     arg === 'help'
   ) {
     command = arg;
+    // Check if next arg is a subcommand for session/baton
+    if ((arg === 'session' || arg === 'baton') && i + 1 < rawArgs.length && !rawArgs[i + 1].startsWith('-')) {
+      subcommand = rawArgs[++i];
+      if (i + 1 < rawArgs.length && !rawArgs[i + 1].startsWith('-')) {
+        positionalArg = rawArgs[++i];
+      }
+    }
   } else if (arg === '-v' || arg === '--version' || arg === 'version') {
     command = 'version';
   } else if (arg === '-h' || arg === '--help') {
@@ -344,11 +390,29 @@ for (let i = 0; i < rawArgs.length; i++) {
     options.skipCompiler = true;
   } else if (arg === '--run-linter') {
     options.runLinter = true;
+  } else if (arg === '--done' || arg === '--completed') {
+    options.done = true;
+    options.completed = true;
+  } else if (arg === '--in-progress') {
+    options.inProgress = true;
+  } else if (arg === '--skip-check') {
+    options.skipCheck = true;
   } else if (arg === '-p' || arg === '--preset') {
     options.preset = rawArgs[++i];
   } else if (arg.startsWith('--preset=')) {
     options.preset = arg.split('=')[1];
+  } else if (arg === '--steps') {
+    options.steps = rawArgs[++i].split(',').map(s => s.trim());
+  } else if (arg === '--role') {
+    options.role = rawArgs[++i];
+  } else if (arg === '--step') {
+    options.step = rawArgs[++i];
+  } else if (arg === '--touch' || arg === '--file') {
+    options.touch.push(rawArgs[++i]);
+  } else if (arg === '--adr' || arg === '--decision') {
+    options.adr.push(rawArgs[++i]);
   }
+  i++;
 }
 
 // Main Router
@@ -374,6 +438,66 @@ switch (command) {
         console.error(`${colors.red}Quality check encountered an unexpected error:${colors.reset}`, err);
         process.exit(1);
       });
+    break;
+
+  case 'session':
+  case 'baton':
+    {
+      const sub = subcommand || 'status';
+      switch (sub) {
+        case 'start':
+          {
+            const goal = positionalArg || 'General Development Task';
+            const code = sessionStart(goal, options);
+            process.exit(code);
+          }
+          break;
+
+        case 'status':
+          {
+            const code = sessionStatus();
+            process.exit(code);
+          }
+          break;
+
+        case 'checkpoint':
+          {
+            const code = sessionCheckpoint(options);
+            process.exit(code);
+          }
+          break;
+
+        case 'acquire':
+          {
+            const role = positionalArg || options.role || 'conductor';
+            const code = sessionAcquire(role, options);
+            process.exit(code);
+          }
+          break;
+
+        case 'release':
+          {
+            const code = sessionRelease(options);
+            process.exit(code);
+          }
+          break;
+
+        case 'end':
+        case 'finish':
+          sessionEnd(options)
+            .then(code => process.exit(code))
+            .catch(err => {
+              console.error(`${colors.red}Failed to end session:${colors.reset}`, err);
+              process.exit(1);
+            });
+          break;
+
+        default:
+          console.log(`${colors.red}Unknown session subcommand: '${sub}'${colors.reset}`);
+          console.log(`Available subcommands: start, status, checkpoint, acquire, release, end\n`);
+          process.exit(1);
+      }
+    }
     break;
 
   case 'install-hook':

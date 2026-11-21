@@ -29,6 +29,8 @@ flowchart LR
    If the task involves UI, CSS, layouts, or visual components, you are strictly forbidden from generating generic, AI-template defaults. You must adhere to `.agents/rules/anti-slop.md`.
 4. **Exhaustive Completeness (Zero Truncation):**  
    Never use placeholders like `// ... rest of code`, `// TODO: implement later`, or elided code blocks. Always provide complete, compilable implementations following `.agents/rules/full-output.md`.
+5. **State Continuity & The Baton Protocol (`.agents/BATON.json`):**  
+   Before executing non-trivial tasks or switching phases, check `.agents/BATON.json`. If an active session is in progress, resume from the step marked `in_progress`, respect the current baton holder, and record architectural decisions and modified files.
 
 ---
 
@@ -36,4 +38,5 @@ flowchart LR
 - **Master Orchestrator Protocol:** [`.agents/ORCHESTRATOR.md`](.agents/ORCHESTRATOR.md)
 - **Dynamic Skill Router:** [`.agents/SKILL_ROUTER.md`](.agents/SKILL_ROUTER.md)
 - **Standard Operating Procedures (SOP):** [`.agents/WORKFLOWS.md`](.agents/WORKFLOWS.md)
+- **Baton Session State:** [`.agents/BATON.json`](.agents/BATON.json)
 - **Quality Guardrails:** [`.agents/rules/`](.agents/rules/)
