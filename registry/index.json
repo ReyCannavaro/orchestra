@@ -1,0 +1,191 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-11-21T03:15:00Z",
+  "repository": "https://github.com/ReyCannavaro/orchestra",
+  "skills": [
+    {
+      "name": "agent-development",
+      "version": "1.0.0",
+      "description": "Create, design, and configure autonomous subagents and personas.",
+      "category": "agent-engineering",
+      "tags": ["agent", "persona", "subagent", "system-prompt"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "brandkit",
+      "version": "1.0.0",
+      "description": "Premium brand-kit design direction, color palettes, and typography tokens.",
+      "category": "design",
+      "tags": ["branding", "design-system", "tokens", "typography"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "browser-use",
+      "version": "1.0.0",
+      "description": "Automate browser interactions for testing, form filling, and web scraping with Playwright.",
+      "category": "testing",
+      "tags": ["browser", "e2e", "playwright", "automation", "scraping"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "context7-mcp",
+      "version": "1.0.0",
+      "description": "Fetch and integrate up-to-date documentation for modern frameworks and libraries.",
+      "category": "tooling",
+      "tags": ["mcp", "documentation", "nextjs", "react19", "tailwind4"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "design-taste-frontend",
+      "version": "1.0.0",
+      "description": "Elite anti-slop frontend styling, layout composition, and high-end visual polish.",
+      "category": "design",
+      "tags": ["frontend", "anti-slop", "ui", "tailwind", "css", "layout"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "design-taste-frontend-v1",
+      "version": "1.0.0",
+      "description": "Legacy taste skill reference preserved for compatibility with older workflows.",
+      "category": "design",
+      "tags": ["legacy", "frontend", "design"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "find-skills",
+      "version": "1.0.0",
+      "description": "Skill discovery and recommendation assistant for identifying optimal agent capabilities.",
+      "category": "agent-engineering",
+      "tags": ["discovery", "router", "skills"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "frontend-design",
+      "version": "1.0.0",
+      "description": "Distinctive, intentional visual design guidance for landing pages and web apps.",
+      "category": "design",
+      "tags": ["visual-design", "ui", "components"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "full-output-enforcement",
+      "version": "1.0.0",
+      "description": "Strict rule set overriding LLM truncation. Forbids // TODO and partial code blocks.",
+      "category": "integrity",
+      "tags": ["integrity", "full-output", "anti-truncation", "completeness"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "gpt-taste",
+      "version": "1.0.0",
+      "description": "Elite UX/UI & GSAP motion engineering with sophisticated micro-interactions.",
+      "category": "design",
+      "tags": ["animation", "gsap", "motion", "micro-interactions"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "high-end-visual-design",
+      "version": "1.0.0",
+      "description": "Agency-grade visual aesthetic patterns, editorial typography, and spatial harmony.",
+      "category": "design",
+      "tags": ["agency", "editorial", "luxury", "aesthetic"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "hook-development",
+      "version": "1.0.0",
+      "description": "Develop and maintain lifecycle hooks and deterministic automation scripts.",
+      "category": "tooling",
+      "tags": ["hooks", "lifecycle", "git-hooks", "automation"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "image-to-code",
+      "version": "1.0.0",
+      "description": "Convert screenshots and design mockups into pixel-accurate HTML/Tailwind/React code.",
+      "category": "frontend",
+      "tags": ["vision", "image-to-code", "mockup", "figma"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "imagegen-frontend-mobile",
+      "version": "1.0.0",
+      "description": "Prompt direction for app-native mobile graphics, splash screens, and illustrations.",
+      "category": "design",
+      "tags": ["mobile", "imagegen", "assets", "illustrations"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "imagegen-frontend-web",
+      "version": "1.0.0",
+      "description": "High-converting web imagery, hero banners, and editorial visual direction.",
+      "category": "design",
+      "tags": ["web", "imagegen", "hero", "banners"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "industrial-brutalist-ui",
+      "version": "1.0.0",
+      "description": "Swiss typographic print aesthetic fused with raw industrial, tactile brutalism.",
+      "category": "design",
+      "tags": ["brutalist", "swiss", "typography", "monochrome", "industrial"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "mcp-integration",
+      "version": "1.0.0",
+      "description": "Standardized integration patterns for Model Context Protocol servers and client tools.",
+      "category": "tooling",
+      "tags": ["mcp", "integration", "tools", "protocol"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "minimalist-ui",
+      "version": "1.0.0",
+      "description": "Clean editorial monochrome interfaces with disciplined spacing and zero clutter.",
+      "category": "design",
+      "tags": ["minimalist", "monochrome", "clean", "editorial"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "redesign-existing-projects",
+      "version": "1.0.0",
+      "description": "Audit legacy web apps and systematically elevate UI quality without regressions.",
+      "category": "frontend",
+      "tags": ["refactor", "redesign", "audit", "ui-upgrade"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "responsive-craft",
+      "version": "1.0.0",
+      "description": "Comprehensive responsive design patterns across mobile, tablet, and desktop breakpoints.",
+      "category": "frontend",
+      "tags": ["responsive", "mobile", "tablet", "breakpoints", "media-queries"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "skill-development",
+      "version": "1.0.0",
+      "description": "Author, validate, and publish reusable skills for autonomous AI agent ecosystems.",
+      "category": "agent-engineering",
+      "tags": ["skill-authoring", "manifest", "packaging"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "stitch-design-taste",
+      "version": "1.0.0",
+      "description": "Semantic design system generation and governance for Google Stitch and agent tools.",
+      "category": "design",
+      "tags": ["design-system", "stitch", "tokens"],
+      "entrypoint": "SKILL.md"
+    },
+    {
+      "name": "valyu-best-practices",
+      "version": "1.0.0",
+      "description": "Deep research, factual citation, and data verification API toolkit for agents.",
+      "category": "research",
+      "tags": ["research", "fact-checking", "api", "data"],
+      "entrypoint": "SKILL.md"
+    }
+  ]
+}

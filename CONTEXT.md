@@ -125,3 +125,14 @@ Pada 21 November 2026:
   - Mengintegrasikan perintah `orchestra session` dan `orchestra baton` ke `bin/index.js`.
   - Mengupdate seluruh directive `AGENTS.md` (root & semua templates) dengan aksioma ke-5: *State Continuity & The Baton Protocol*.
   - Teruji tuntas: start session, checkpoint advance, touch file tracking, ADR logging, baton handover, dan auto-archive saat end session.
+- **Penyelesaian Penuh Tahap 3 (Pilar 3: Modular Skill Registry & Package Manager):**
+  - Membuat format manifest terstandarisasi `skill.json` dan central index `registry/index.json` (mengindeks 23 core skills dengan kategori & tags).
+  - Mengembangkan modul `lib/skills/`:
+    - `lib/skills/manifest.js`: Parser & generator manifest `skill.json` serta ekstraktor frontmatter `SKILL.md`.
+    - `lib/skills/registry.js`: Resolusi registry hybrid (local `registry/index.json` & remote GitHub CDN fallback).
+    - `lib/skills/reporter.js`: Tampilan tabel ANSI untuk `skill list` dan `skill search`.
+    - `lib/skills/routerUpdater.js`: Auto-injection skill baru ke dalam `.agents/SKILL_ROUTER.md`.
+    - `lib/skills/index.js`: API lengkap perintah CLI: `skillList`, `skillSearch`, `skillAdd`, `skillRemove`, `skillUpdate`, dan `skillNew`.
+  - Mengintegrasikan perintah `orchestra skill` / `skills` ke `bin/index.js`.
+  - Teruji tuntas: listing skills, pencarian berbasis keyword/tag, penambahan skill lokal/global, scaffolding skill baru, dan penghapusan skill.
+  - Memperbarui roadmap active Baton session di `.agents/BATON.json` (Step 3: COMPLETED ✔).

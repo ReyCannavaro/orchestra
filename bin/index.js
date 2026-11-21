@@ -22,6 +22,14 @@ import {
   sessionRelease,
   sessionEnd,
 } from '../lib/session/index.js';
+import {
+  skillList,
+  skillSearch,
+  skillAdd,
+  skillRemove,
+  skillUpdate,
+  skillNew,
+} from '../lib/skills/index.js';
 import { colors } from '../lib/utils/colors.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -62,9 +70,16 @@ ${colors.bold}CORE COMMANDS:${colors.reset}
   ${colors.green}install-hook${colors.reset}            Install Git pre-commit guardrail hook to prevent bad commits
   ${colors.green}init-ci${colors.reset}                 Generate GitHub Actions CI workflow for PR verification
   ${colors.green}setup-global${colors.reset}            Install/Sync 23+ core skills to ~/.agents/skills (Global Hub)
-  ${colors.green}list-skills${colors.reset}             Display all available core skills in the Orchestra library
   ${colors.green}version, -v${colors.reset}             Display Orchestra version
   ${colors.green}help, --help${colors.reset}            Show this help menu
+
+${colors.bold}SKILL PACKAGE MANAGER COMMANDS:${colors.reset}
+  ${colors.green}skill list${colors.reset}              List installed skills (global & local project skills)
+  ${colors.green}skill search <query>${colors.reset}    Search skills in the Orchestra registry by keyword/tag
+  ${colors.green}skill add <name>${colors.reset}        Install a skill from registry (--global or --local)
+  ${colors.green}skill remove <name>${colors.reset}     Remove an installed skill
+  ${colors.green}skill update [name]${colors.reset}     Update installed skill(s) to latest version
+  ${colors.green}skill new <name>${colors.reset}        Scaffold a new modular skill with standard manifest & templates
 
 ${colors.bold}BATON PROTOCOL & SESSION COMMANDS:${colors.reset}
   ${colors.green}session start <goal>${colors.reset}    Initialize an orchestrated task session with roadmap tracking
@@ -73,6 +88,11 @@ ${colors.bold}BATON PROTOCOL & SESSION COMMANDS:${colors.reset}
   ${colors.green}session acquire <role>${colors.reset}  Acquire baton lock for an agent role (frontend, backend, etc.)
   ${colors.green}session release${colors.reset}         Release current baton lock to idle state
   ${colors.green}session end${colors.reset}             Conclude session, run pre-flight check, and export ADRs
+
+${colors.bold}OPTIONS (for skills):${colors.reset}
+  ${colors.cyan}--global, -g${colors.reset}         Target global skill hub (~/.agents/skills)
+  ${colors.cyan}--local, -l${colors.reset}          Target current project repository (.agents/skills)
+  ${colors.cyan}--desc <text>${colors.reset}         Description for new skill (used with skill new)
 
 ${colors.bold}OPTIONS (for session checkpoint):${colors.reset}
   ${colors.cyan}--step <N>${colors.reset}              Target step number in the roadmap
@@ -95,65 +115,12 @@ ${colors.bold}OPTIONS (for init):${colors.reset}
   ${colors.cyan}--dry-run${colors.reset}                 Simulate scaffolding without modifying files
 
 ${colors.bold}EXAMPLES:${colors.reset}
+  $ npx orchestra skill search stripe
+  $ npx orchestra skill add design-taste-frontend
+  $ npx orchestra skill new custom-auth --desc "OAuth2 and Passkey helper"
   $ npx orchestra session start "Implement Lucia Authentication"
-  $ npx orchestra session checkpoint --step 1 --done --adr "ADR-001: Use HTTP-only cookies"
-  $ npx orchestra session status
-  $ npx orchestra session end
   $ npx orchestra check --staged --fast
 `);
-}
-
-async function listSkills() {
-  banner();
-  const skillsDir = path.join(REPO_ROOT, 'core-skills');
-  if (!fs.existsSync(skillsDir)) {
-    console.log(`${colors.red}Error: core-skills folder not found at ${skillsDir}${colors.reset}`);
-    return;
-  }
-
-  const items = fs.readdirSync(skillsDir, { withFileTypes: true })
-    .filter(d => d.isDirectory())
-    .map(d => d.name);
-
-  console.log(`${colors.bold}🎻 Orchestra Core Skills Library (${items.length} skills):${colors.reset}\n`);
-  items.forEach((skill, idx) => {
-    let desc = '';
-    const skillMd = path.join(skillsDir, skill, 'SKILL.md');
-    if (fs.existsSync(skillMd)) {
-      try {
-        const content = fs.readFileSync(skillMd, 'utf8');
-        const match = content.match(/description:\s*(.+)/i);
-        if (match) {
-          desc = match[1].replace(/['"]/g, '').trim();
-          if (desc.length > 70) desc = desc.slice(0, 67) + '...';
-        }
-      } catch {}
-    }
-    console.log(`  ${colors.cyan}${(idx + 1).toString().padStart(2, ' ')}.${colors.reset} ${colors.bold}${skill.padEnd(28, ' ')}${colors.reset} ${colors.dim}${desc}${colors.reset}`);
-  });
-  console.log('');
-}
-
-async function setupGlobal() {
-  banner();
-  const userHome = os.homedir();
-  const targetSkillsDir = path.join(userHome, '.agents', 'skills');
-  const sourceSkillsDir = path.join(REPO_ROOT, 'core-skills');
-
-  console.log(`${colors.yellow}📦 Installing Orchestra Core Skills to Global Hub...${colors.reset}`);
-  console.log(`   Source: ${sourceSkillsDir}`);
-  console.log(`   Destination: ${targetSkillsDir}\n`);
-
-  if (!fs.existsSync(sourceSkillsDir)) {
-    console.log(`${colors.red}Error: Source core-skills not found!${colors.reset}`);
-    return;
-  }
-
-  fs.mkdirSync(targetSkillsDir, { recursive: true });
-  fs.cpSync(sourceSkillsDir, targetSkillsDir, { recursive: true });
-
-  console.log(`${colors.green}✔ Successfully synchronized 23+ Core Skills to ${targetSkillsDir}${colors.reset}`);
-  console.log(`${colors.cyan}✨ Any project on this machine can now resolve global skills!${colors.reset}\n`);
 }
 
 function detectProjectStack(targetDir) {
@@ -340,6 +307,12 @@ const options = {
   touch: [],
   adr: [],
   skipCheck: false,
+  globalOnly: false,
+  localOnly: false,
+  local: false,
+  desc: '',
+  author: '',
+  category: '',
 };
 
 let i = 0;
@@ -359,11 +332,13 @@ while (i < rawArgs.length) {
     arg === 'ci' ||
     arg === 'session' ||
     arg === 'baton' ||
+    arg === 'skill' ||
+    arg === 'skills' ||
     arg === 'help'
   ) {
     command = arg;
-    // Check if next arg is a subcommand for session/baton
-    if ((arg === 'session' || arg === 'baton') && i + 1 < rawArgs.length && !rawArgs[i + 1].startsWith('-')) {
+    // Check if next arg is a subcommand
+    if ((arg === 'session' || arg === 'baton' || arg === 'skill' || arg === 'skills') && i + 1 < rawArgs.length && !rawArgs[i + 1].startsWith('-')) {
       subcommand = rawArgs[++i];
       if (i + 1 < rawArgs.length && !rawArgs[i + 1].startsWith('-')) {
         positionalArg = rawArgs[++i];
@@ -397,6 +372,11 @@ while (i < rawArgs.length) {
     options.inProgress = true;
   } else if (arg === '--skip-check') {
     options.skipCheck = true;
+  } else if (arg === '-g' || arg === '--global') {
+    options.globalOnly = true;
+  } else if (arg === '-l' || arg === '--local') {
+    options.localOnly = true;
+    options.local = true;
   } else if (arg === '-p' || arg === '--preset') {
     options.preset = rawArgs[++i];
   } else if (arg.startsWith('--preset=')) {
@@ -411,6 +391,12 @@ while (i < rawArgs.length) {
     options.touch.push(rawArgs[++i]);
   } else if (arg === '--adr' || arg === '--decision') {
     options.adr.push(rawArgs[++i]);
+  } else if (arg === '--desc') {
+    options.desc = rawArgs[++i];
+  } else if (arg === '--author') {
+    options.author = rawArgs[++i];
+  } else if (arg === '--category') {
+    options.category = rawArgs[++i];
   }
   i++;
 }
@@ -438,6 +424,82 @@ switch (command) {
         console.error(`${colors.red}Quality check encountered an unexpected error:${colors.reset}`, err);
         process.exit(1);
       });
+    break;
+
+  case 'skill':
+  case 'skills':
+    {
+      const sub = subcommand || 'list';
+      switch (sub) {
+        case 'list':
+        case 'ls':
+          skillList(options)
+            .then(code => process.exit(code))
+            .catch(err => {
+              console.error(`${colors.red}Failed to list skills:${colors.reset}`, err);
+              process.exit(1);
+            });
+          break;
+
+        case 'search':
+        case 'find':
+          skillSearch(positionalArg, options)
+            .then(code => process.exit(code))
+            .catch(err => {
+              console.error(`${colors.red}Search failed:${colors.reset}`, err);
+              process.exit(1);
+            });
+          break;
+
+        case 'add':
+        case 'install':
+        case 'i':
+          skillAdd(positionalArg, options)
+            .then(code => process.exit(code))
+            .catch(err => {
+              console.error(`${colors.red}Installation failed:${colors.reset}`, err);
+              process.exit(1);
+            });
+          break;
+
+        case 'remove':
+        case 'rm':
+        case 'uninstall':
+          skillRemove(positionalArg, options)
+            .then(code => process.exit(code))
+            .catch(err => {
+              console.error(`${colors.red}Removal failed:${colors.reset}`, err);
+              process.exit(1);
+            });
+          break;
+
+        case 'update':
+        case 'up':
+        case 'sync':
+          skillUpdate(positionalArg, options)
+            .then(code => process.exit(code))
+            .catch(err => {
+              console.error(`${colors.red}Update failed:${colors.reset}`, err);
+              process.exit(1);
+            });
+          break;
+
+        case 'new':
+        case 'create':
+          skillNew(positionalArg, options)
+            .then(code => process.exit(code))
+            .catch(err => {
+              console.error(`${colors.red}Scaffolding failed:${colors.reset}`, err);
+              process.exit(1);
+            });
+          break;
+
+        default:
+          console.log(`${colors.red}Unknown skill subcommand: '${sub}'${colors.reset}`);
+          console.log(`Available subcommands: list, search, add, remove, update, new\n`);
+          process.exit(1);
+      }
+    }
     break;
 
   case 'session':
@@ -518,11 +580,10 @@ switch (command) {
 
   case 'setup-global':
   case 'install-skills':
-    setupGlobal().catch(console.error);
-    break;
-
   case 'list-skills':
-    listSkills().catch(console.error);
+    skillList(options)
+      .then(code => process.exit(code))
+      .catch(console.error);
     break;
 
   case 'help':

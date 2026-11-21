@@ -79,13 +79,18 @@ USAGE:
 COMMANDS:
   init             Scaffold Orchestra multi-agent architecture in current repository
   session <action> Kelola sesi kerja multi-agent & Baton lock (start, status, checkpoint, end)
+  skill <action>   Manajemen paket skill modular (list, search, add, remove, update, new)
   check, doctor    Run Quality Gatekeeper (Anti-Slop, Anti-Truncation, Agent Health)
   install-hook     Install Git pre-commit guardrail hook to prevent bad commits
   init-ci          Generate GitHub Actions CI workflow for PR verification
   setup-global     Install/Sync 23+ core skills to ~/.agents/skills (Global Hub)
-  list-skills      Display all available core skills in the Orchestra library
   version, -v      Tampilkan versi Orchestra
   help, --help     Show this help menu
+
+OPTIONS (for skills):
+  --global, -g     Target direktori skill global laptop (~/.agents/skills)
+  --local, -l      Target direktori skill lokal proyek (.agents/skills)
+  --desc <text>    Deskripsi kemampuan saat membuat skill baru (skill new)
 
 OPTIONS (for session):
   --step <N>           Pilih nomor langkah roadmap yang ditargetkan
@@ -107,6 +112,34 @@ OPTIONS (for init):
   -f, --force          Timpa file yang sudah ada jika ada konflik
   --dry-run            Simulasikan scaffolding tanpa menulis file ke disk
 ```
+
+---
+
+## 📦 Modular Skill Registry & Package Manager
+
+Orchestra kini berfungsi sebagai package manager khusus untuk AI Skills layaknya Homebrew atau NPM:
+
+```bash
+# Cari skill berdasarkan kata kunci / tag di registry Orchestra
+npx orchestra skill search stripe
+npx orchestra skill search design
+
+# Install skill spesifik (default global ke ~/.agents/skills atau --local ke repo saat ini)
+npx orchestra skill add design-taste-frontend
+npx orchestra skill add brandkit --local
+
+# Lihat daftar seluruh skill yang terpasang di sistem & proyek
+npx orchestra skill list
+
+# Scaffold template skill baru berstandar enterprise (manifest + petunjuk teknis)
+npx orchestra skill new payment-gateway --desc "Stripe and Midtrans payment integration"
+
+# Hapus atau perbarui skill
+npx orchestra skill update --all
+npx orchestra skill remove old-skill
+```
+
+Setiap skill yang di-install secara otomatis didaftarkan ke dalam matriks `SKILL_ROUTER.md` agar AI dapat langsung memanggilnya secara *on-demand*.
 
 ---
 
