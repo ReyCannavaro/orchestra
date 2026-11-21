@@ -1,0 +1,9 @@
+# .npmignore
+.git/
+.github/
+.cursor/
+.agents/history/
+tests/
+*.log
+docs/ANALYSIS_REPORT.md
+docs/DISTRIBUTION_BLUEPRINT.md
